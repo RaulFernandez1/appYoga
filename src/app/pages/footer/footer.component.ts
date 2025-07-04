@@ -9,6 +9,12 @@ import { RouterLink } from '@angular/router';
 })
 export class FooterComponent {
 
+  rol?: string;
+
+  ngOnInit() {
+    this.rol = localStorage.getItem('rol') || '';
+    console.log(this.rol);
+  }
 
   scrollUp() {
     window.scrollTo({top: 0, behavior: 'smooth'})

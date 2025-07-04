@@ -69,13 +69,6 @@
 
 
 <!-- PDF generado -->
-
-@if (reciboSeleccionado == null) {
-    <div id="reciboPDF" class="container">
-        <h2>Recibo de Pago</h2>
-        <p><strong>ID:</strong> {{ "REC-2025-06-0001" }}</p>
-        <p><strong>Cantidad:</strong> {{ "25" }} €</p>
-        <p><strong>Alumno:</strong> #{{ "1" }}</p>
-        <p><strong>Fecha:</strong> {{ "27/07/2025" }}</p>
-    </div>
-}
+<div #reciboPrint style="position: absolute; top: -9999px; left: -9999px;">
+  <app-print-recibos [recibo]="reciboSeleccionado"></app-print-recibos>
+</div>
