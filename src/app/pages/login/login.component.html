@@ -1,0 +1,17 @@
+<div class="login-container">
+  <form class="login-form">
+    <h2>Iniciar Sesión</h2>
+    <div class="input-group">
+      <label for="text">Correo electrónico</label>
+      <input type="text" id="email" name="username" [(ngModel)] = "usuario.username" />
+    </div>
+    <div class="input-group">
+      <label for="text">Contraseña</label>
+      <input type="text" id="password" name="password" [(ngModel)] = "usuario.password" />
+    </div>
+
+    <button type="submit" class="login-button" (click)="login()">Entrar</button>
+
+  </form>
+</div>
+

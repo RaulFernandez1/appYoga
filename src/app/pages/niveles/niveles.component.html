@@ -1,0 +1,47 @@
+<div class="container-lg mb-4 mt-3">
+    <div class="mb-3 align-items-center ms-1 d-flex justify-content-between">
+        <h1>Gestion de Niveles</h1>
+        <button class="btn btn-secondary" (click)="nuevoNivel()">+ Añadir nivel</button>
+    </div>
+
+    <div class="border border-secundary rounded shadow-sm mb-3">
+        <div class="input-group p-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="nombreNivel" placeholder="Buscar niveles por nombre..." aria-describedby="basic-addon1" (keyup.enter)="buscar()">
+        </div>
+    </div>
+
+    <div class="table-responsive border rounded border-secundary p-4 shadow-sm">
+        <table class="table table-hover caption-top align-middle">
+            <caption class="titulo-tabla"><h4>Lista de niveles</h4></caption>
+            <thead class="table-header">
+                <tr>
+                    <td>Nombre nivel</td>
+                    <td>Condicion</td>
+                    <td>Precio Mensualidad</td>
+                    <td>Precio Bonos</td>
+                    <td>Precio Clases</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                @for (nivel of nivelesRes; track $index) {
+                    <tr>
+                        <td>{{nivel.nombrenivel}}</td>
+                        <td>{{nivel.condicion}}</td>
+                        <td>{{nivel.preciomensualidad}}</td>
+                        <td>{{nivel.preciobonos}}</td>
+                        <td>{{nivel.precioclases}}</td>
+                        <td>
+                            <div class="">
+                                <button type="button" class="button btn-editar me-2" (click)="editarNivel(nivel)"><i class="bi bi-pencil-square"></i></button>
+                                <button type="button" class="button btn-eliminar" (click)="eliminarNivel(nivel)"><i class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

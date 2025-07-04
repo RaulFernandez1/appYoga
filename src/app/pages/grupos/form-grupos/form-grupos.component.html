@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{accion}} nivel</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+</div>
+<div class="modal-body">
+  <div class="form-group was-validated">
+
+    <div class="container mt-1 border border-2 rounded rounded-3">
+        <label for="nombre" class="form-label">Nombre grupo:</label>
+        <input required type="text" class="form-control mb-3" id="nombre" [(ngModel)] = "grupo.nombregrupo" placeholder="" (keyup.enter)="guardarNivel()">
+
+        <label for="condicion" class="form-label">Horario:</label>
+        <input required type="text" class="form-control mb-3" id="condicion" [(ngModel)] = "grupo.horario" placeholder="" (keyup.enter)="guardarNivel()">
+
+        <label for="condicion" class="form-label">Nivel:</label>
+        <select required [(ngModel)]="grupo.nivel" class="form-select col-2">
+            <option value="">Nombre nivel</option>
+            @for (nivel of niveles; track $index) {
+                <option [value]="nivel.nombrenivel">{{ nivel.nombrenivel }}</option>
+            }
+        </select>
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="error-message" [ngClass]="{ 'red-text': errorMensaje }" *ngIf="errorMensaje"
+  style="color: red; position: relative;">{{ errorMensaje }}</div>
+  <button type="button" class="btn btn-outline-dark" (click)="guardarNivel()">Guardar</button>
+</div>

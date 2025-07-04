@@ -1,0 +1,115 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{accion}} alumno</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <div class="container mt-1 border border-2 rounded rounded-3">
+        <div class="row justify-content-center mb-1">
+            <div class="col-md-12">
+                <label for="dni" class="form-label">DNI:</label>
+                <input type="text" class="form-control" id="dni" [(ngModel)] = "alumno.dni" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+        <div class="row justify-content-center mb-1">
+            <div class="col-4">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" [(ngModel)] = "alumno.nombre" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-4">
+                <label for="apellido1" class="form-label">Apellido 1:</label>
+                <input type="text" class="form-control" id="apellido1" [(ngModel)] = "alumno.apellido1" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-4">
+                <label for="apellido2" class="form-label">Apellido 2:</label>
+                <input type="text" class="form-control" id="apellido2" [(ngModel)] = "alumno.apellido2" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+        <div class="row justify-content-center mb-1">
+            <div class="col-md-6">
+                <label for="fechanacimiento" class="form-label">Fecha Nacimiento:</label>
+                <input type="date" class="form-control" id="fechanacimiento" [(ngModel)] = "alumno.fechanacimiento" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-md-6">
+                <label for="profesion" class="form-label">Profesión:</label>
+                <input type="text" class="form-control" id="profesion" [(ngModel)] = "alumno.profesion" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+        <div class="row justify-content-center mb-1">
+            <div class="col-md-8">
+                <label for="direccion" class="form-label">Dirección:</label>
+                <input type="text" class="form-control" id="fechanacimiento" [(ngModel)] = "alumno.direccion" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-md-4">
+                <label for="profesion" class="form-label">Población:</label>
+                <input type="text" class="form-control" id="profesion" [(ngModel)] = "alumno.poblacion" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <label for="provincia" class="form-label">Provincia:</label>
+                <input type="text" class="form-control" id="provincia" [(ngModel)] = "alumno.provincia" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-md-3">
+                <label for="telefono1" class="form-label">Teléfono 1:</label>
+                <input type="number" class="form-control" id="telefono1" [(ngModel)] = "alumno.telefono1" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-md-3">
+                <label for="telefono2" class="form-label">Teléfono 2:</label>
+                <input type="number" class="form-control" id="telefono2" [(ngModel)] = "alumno.telefono2" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-md-2">
+                <label for="codigopostal" class="form-label">Código Postal:</label>
+                <input type="number" class="form-control" id="codigopostal" [(ngModel)] = "alumno.codigopostal" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3 border border-2 rounded rounded-3">
+        <div class="row justify-content-center mb-1">
+            <div class="col-4">
+                <label for="nivel" class="form-label">Nivel:</label>
+                <select required [(ngModel)]="nivelSelected" class="form-select col-2" (change)="onNivelChange()">
+                    <option value="">Nombre nivel</option>
+                    @for (nivel of niveles; track $index) {
+                        <option [value]="nivel.nombrenivel">{{ nivel.nombrenivel }}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="grupo" class="form-label">Grupo:</label>
+                <select required [(ngModel)]="alumno.grupo_id" class="form-select col-2" [disabled]="!nivelSelected">
+                    <option value="">Nombre grupo</option>
+                    @for (grupo of grupos; track $index) {
+                        <option [value]="grupo.id">{{ grupo.nombregrupo }}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="condicion" class="form-label">Condición:</label>
+                <input type="text" class="form-control" id="condicion" [(ngModel)] = "alumno.condicion" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-4">
+                <input type="radio" name="tipoPago" [(ngModel)]="alumnoTipoPago" value="mensualidad" (change)="actualizarPrecio()"> Mensualidad <br>
+                <input type="radio" name="tipoPago" [(ngModel)]="alumnoTipoPago" value="bonos" (change)="actualizarPrecio()"> Bonos <br>
+                <input type="radio" name="tipoPago" [(ngModel)]="alumnoTipoPago" value="clases" (change)="actualizarPrecio()"> Clases
+            </div>
+            <div class="col-4">
+                <label for="precio" class="form-label">Precio:</label>
+                <input type="number" class="form-control" id="precio" [(ngModel)] = "alumno.precio" [placeholder]="" (keyup.enter)="guardarAlumno()">
+            </div>
+            <div class="col-4">
+                <label for="fechaalta" class="form-label">Fecha Alta:</label>
+                <input type="date" class="form-control" id="fechaalta" [(ngModel)] = "alumno.fechaalta" placeholder="" (keyup.enter)="guardarAlumno()">
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="error-message" [ngClass]="{ 'red-text': errorMensaje }" *ngIf="errorMensaje"
+  style="color: red; position: relative;">{{ errorMensaje }}</div>
+  <button type="button" class="btn btn-outline-dark" (click)="guardarAlumno()">Guardar</button>
+</div>

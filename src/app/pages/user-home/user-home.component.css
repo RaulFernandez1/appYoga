@@ -1,0 +1,48 @@
+.app-container {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: 6rem auto 7rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, rgb(21, 96, 50), rgb(240,253,244));
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+.badge-pill {
+  border-radius: 50rem;
+  padding: 0.4em 0.75em;
+}
+.label {
+  font-weight: 600;
+}
+
+main {
+  background-color: white;
+  margin-bottom: 100px;
+}
+
+.logout-button {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border: none;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+  color: white;
+}
+

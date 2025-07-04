@@ -1,0 +1,156 @@
+<div class="app-container">
+    <header class="header d-flex align-items-center">
+        <div class="ms-3">
+            <h2 class="text-light">Sadhana de Yoga</h2>
+        </div>
+        <div class="ms-auto me-3">
+            <button class="logout-button" (click)="logout()">Cerrar sesión</button>
+        </div>
+    </header>
+    <main class="container-fluid mt-4">
+
+        <!-- Offcanvas Sidebar -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="asistenteYoga">
+            <div class="offcanvas-header bg-success text-white">
+                <h5 class="offcanvas-title">
+                <i class="bi bi-chat-dots me-2"></i>Asistente de Yoga
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body d-flex flex-column p-0" style="height: 100%;">
+                <!-- Chat body -->
+                <div #chatContainer class="flex-grow-1 overflow-auto p-3 bg-light">
+                @for (item of mensajes; track $index) {
+                    <div [ngClass]="item.usuario ? 'bg-primary-subtle text-end' : 'bg-secondary-subtle'"
+                        class="p-3 rounded mb-2">
+                    {{item.texto}}
+                    <div class="text-muted small mt-1">{{item.hora | date: 'HH:mm'}}</div>
+                    </div>
+                }
+                </div>
+
+                <!-- Chat input -->
+                <div class="border-top p-3">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Pregúntame sobre horarios, precios, tipos de yoga..."
+                        [(ngModel)]="mensaje" (keyup.enter)="enviarMensaje()">
+                    <button class="btn btn-success" (click)="enviarMensaje()"><i class="bi bi-send"></i></button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner de bienvenida -->
+        <div class="alert alert-success d-flex justify-content-between align-items-center p-4 rounded">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="flex-shrink-0">
+                    <i class="bi bi-person-circle fs-3"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h4 class="mb-1">¡Bienvenido/a, {{alumno?.nombre}}!</h4>
+                    <p class="mb-0 text-muted">Tu práctica de yoga te está esperando</p>
+                </div>
+            </div>
+            <button class="btn btn-success shadow-sm" data-bs-toggle="offcanvas" data-bs-target="#asistenteYoga" (click)="horaMensajeBienvenida()"><i class="bi bi-chat-dots-fill me-2"></i>Asistente</button>
+        </div>
+
+        <!-- Información principal -->
+        <div class="row g-4">
+
+            <!-- Perfil Personal -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                <h5 class="mb-3"><i class="bi bi-person-lines-fill me-2 text-success"></i>Perfil Personal</h5>
+                <div class="row">
+                    <div class="col-6">
+                    <p class="mb-1 text-muted label">Nombre completo</p>
+                    <p class="fw-bold">{{alumno?.nombre}}</p>
+                    </div>
+                    <div class="col-6">
+                    <p class="mb-1 text-muted label">Edad</p>
+                    <p class="fw-bold">{{calcularEdad(alumno?.fechanacimiento)}}</p>
+                    </div>
+                    <div class="col-6">
+                    <p class="mb-1 text-muted label">DNI</p>
+                    <p class="fw-bold">{{alumno?.dni}}</p>
+                    </div>
+                    <div class="col-6">
+                    <p class="mb-1 text-muted label">Profesión</p>
+                    <p class="fw-bold">{{alumno?.profesion}}</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                <h5 class="mb-3"><i class="bi bi-award me-2 text-success"></i>Estado</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 text-muted label">Estado</p>
+                    @if (alumno?.activo) {<span class="badge bg-success-subtle text-success badge-pill">Activo</span>}
+                    @else {<span class="badge bg-danger-subtle text-danger badge-pill">Baja</span>}
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    @if (alumno?.fechabaja === null) {
+                        <p class="mb-0 text-muted label">Fecha Alta</p>
+                        <span class="badge bg-primary-subtle text-primary badge-pill">{{alumno?.fechaalta}}</span>
+                    } @else {
+                        <p class="mb-0 text-muted label">Fecha Baja</p>
+                        <span class="badge bg-primary-subtle text-primary badge-pill">{{alumno?.fechabaja}}</span>
+                    }
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <p class="mb-0 text-muted label">Grupo</p>
+                    <span class="fw-bold">#{{alumno?.grupo_id}}</span>
+                </div>
+                </div>
+            </div>
+
+            <!-- Información de Contacto -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                <h5 class="mb-3"><i class="bi bi-telephone me-2 text-success"></i>Información de Contacto</h5>
+                <div class="row">
+                    <div class="col-6">
+                    <p class="mb-1 text-muted label">Teléfono</p>
+                    <p class="fw-bold">{{alumno?.telefono1}}</p>
+                    </div>
+                    <div class="col-6">
+                    <p class="mb-1 text-muted label">Teléfono alternativo</p>
+                    <p class="fw-bold">{{alumno?.telefono2}}</p>
+                    </div>
+                </div>
+                <p class="mb-1 text-muted label"><i class="bi bi-geo-alt-fill me-2"></i>Dirección</p>
+                <p class="fw-bold mb-0">{{alumno?.direccion+', '+alumno?.poblacion+', '+alumno?.provincia+' ('+alumno?.codigopostal+')'}}</p>
+                </div>
+            </div>
+
+            <!-- Servicios Activos -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                <h5 class="mb-3"><i class="bi bi-building me-2 text-success"></i>Servicios Activos</h5>
+                <ul class="list-unstyled mb-0">
+                    <li class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Bonos</span>
+                        @if (alumno?.bonos) {<i class="bi bi-check2-circle text-success fs-5"></i>}
+                        @else {<i class="bi bi-x-circle text-danger fs-5"></i>}
+                    </li>
+                    <li class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Mensualidad</span>
+                        @if (alumno?.mensualidad) {<i class="bi bi-check2-circle text-success fs-5"></i>}
+                        @else {<i class="bi bi-x-circle text-danger fs-5"></i>}
+                    </li>
+                    <li class="d-flex justify-content-between">
+                        <span class="text-muted">Clases</span>
+                        @if (alumno?.clases) {<i class="bi bi-check2-circle text-success fs-5"></i>}
+                        @else {<i class="bi bi-x-circle text-danger fs-5"></i>}
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <app-footer></app-footer>
+</div>

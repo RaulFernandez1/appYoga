@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Generar recibos</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+</div>
+<div class="modal-body">
+  <div class="form-group was-validated">
+
+    <div class="container mt-1 border border-2 rounded rounded-3">
+        <label for="fecha" class="form-label">Nombre grupo:</label>
+        <input required type="date" class="form-control mb-3" id="fecha" [(ngModel)] = "recibo.fechaemision" placeholder="" (keyup.enter)="guardarRecibo()">
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="error-message" [ngClass]="{ 'red-text': errorMensaje }" *ngIf="errorMensaje"
+  style="color: red; position: relative;">{{ errorMensaje }}</div>
+  <button type="button" class="btn btn-outline-dark" (click)="guardarRecibo()">Guardar</button>
+</div>

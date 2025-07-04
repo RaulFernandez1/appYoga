@@ -1,0 +1,43 @@
+<div class="container-lg mb-4 mt-3">
+    <div class="mb-3 align-items-center ms-1 d-flex justify-content-between">
+        <h1>Gestion de Grupos</h1>
+        <button class="btn btn-secondary" (click)="nuevoGrupo()">+ Añadir nivel</button>
+    </div>
+
+    <div class="border border-secundary rounded shadow-sm mb-3">
+        <div class="input-group p-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="nombreGrupo" placeholder="Buscar niveles por nombre..." aria-describedby="basic-addon1" (keyup.enter)="buscar()">
+        </div>
+    </div>
+
+    <div class="table-responsive border rounded border-secundary p-4 shadow-sm">
+        <table class="table table-hover caption-top align-middle">
+            <caption class="titulo-tabla"><h4>Lista de grupos</h4></caption>
+            <thead class="table-header">
+                <tr>
+                    <td>Nombre grupo</td>
+                    <td>Horario</td>
+                    <td>Nivel</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                @for (grupo of gruposRes; track $index) {
+                    <tr>
+                        <td>{{grupo.nombregrupo}}</td>
+                        <td>{{grupo.horario}}</td>
+                        <td>{{grupo.nivel}}</td>
+                        <td>
+                            <div>
+                                <button type="button" class="button btn-editar me-2" (click)="editarGrupo(grupo)"><i class="bi bi-pencil-square"></i></button>
+                                <button type="button" class="button btn-eliminar" (click)="eliminarGrupo(grupo)"><i class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

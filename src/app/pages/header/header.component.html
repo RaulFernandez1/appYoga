@@ -1,0 +1,33 @@
+<!--<header class="footer-app">
+    <div class="app-login">
+        <button class="btn-sesion" (click)="logout()">Cerrar sesion</button>
+    </div>
+    <div class="app-utils">
+        <div class="logo">
+            <h1>Hola Loco</h1>
+        </div>
+
+        <nav class="nav-app">
+            <button>Home</button>
+            <button>Alumnos</button>
+            <button>Grupos</button>
+        </nav>
+    </div>
+</header>-->
+
+<header class="header bg-success pt-4 pb-4">
+    <div class="left-section">
+        <h2 class="text-light">Sadhana de Yoga</h2>
+        <nav class="nav-buttons">
+            <button class="nav-link" [routerLink]="['/home']">Home</button>
+            <button class="nav-link" [routerLink]="['/home/alumnos']">Alumnos</button>
+            <button class="nav-link" [routerLink]="['/home/grupos']">Grupos</button>
+            <button class="nav-link" [routerLink]="['/home/niveles']">Niveles</button>
+            <button class="nav-link" [routerLink]="['/home/gastos']">Gastos</button>
+            <button class="nav-link" [routerLink]="['/home/recibos']">Recibos</button>
+        </nav>
+    </div>
+    <div class="right-section">
+      <button class="logout-button" (click)="logout()"><i class="bi bi-box-arrow-right"></i>  Cerrar sesión</button>
+    </div>
+</header>

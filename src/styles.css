@@ -1,1 +1,69 @@
-/* You can add global styles to this file, and also import other style files */
+/** Estilado general */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/** Estilado de tablas */
+.table-header td  {
+  color: grey;
+  font-weight: bold;
+}
+
+.table-body tr:last-child  {
+  border-bottom: white;
+}
+
+.titulo-tabla {
+  color: black;
+}
+
+.table td:last-child {
+  text-align: center;
+}
+
+/** Estilado de botones */
+.button {
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-editar {
+  border: 1px solid #c9d7cd;
+  color: #4e6c5d;
+  background-color: #f9fcfa;
+  
+}
+.btn-editar:hover {
+  background-color: #e8f2ec;
+}
+
+.btn-eliminar {
+  border: 1px solid #f2c2c2;
+  color: #d33c3c;
+  background-color: #fcf7f7;
+}
+.btn-eliminar:hover {
+  background-color: #fce5e5;
+}
+
+.btn-pagar {
+  border: 1px solid #dbf2c2;
+  color: #87d33c;
+  background-color: #fbfcf7;
+}
+.btn-pagar:hover {
+  background-color: #f9fee4;
+}
+
+.btn-imprimir {
+  border: 1px solid #c2eaf2;
+  color: #3cc4d3;
+  background-color: #f7fafc;
+}
+.btn-imprimir:hover {
+  background-color: #e4f4fe;
+}

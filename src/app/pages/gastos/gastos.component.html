@@ -1,0 +1,35 @@
+<div class="container-lg mb-4 mt-3">
+    <div class="mb-3 align-items-center ms-1 d-flex justify-content-between">
+        <h1>Gestion de Gastos</h1>
+        <button class="btn btn-secondary" (click)="nuevoGasto()">+ Añadir nivel</button>
+    </div>
+
+    <div class="table-responsive border rounded border-secundary p-4 shadow-sm">
+        <table class="table table-hover caption-top align-middle">
+            <caption class="titulo-tabla"><h4>Lista de grupos</h4></caption>
+            <thead class="table-header">
+                <tr>
+                    <td>Fecha gasto</td>
+                    <td>Descripcion</td>
+                    <td>Cantidad</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                @for (gasto of gastos; track $index) {
+                    <tr>
+                        <td>{{gasto.fechagasto | date:'dd/MM/yyyy' }}</td>
+                        <td>{{gasto.descripcion}}</td>
+                        <td>{{gasto.cantidadgasto}}</td>
+                        <td>
+                            <div>
+                                <button type="button" class="button btn-eliminar" (click)="eliminarGasto(gasto)"><i class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

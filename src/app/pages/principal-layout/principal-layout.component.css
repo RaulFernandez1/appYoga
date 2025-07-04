@@ -1,0 +1,9 @@
+.app-container {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: 7rem auto 7rem;
+}
+
+main {
+  background-color: white;
+}

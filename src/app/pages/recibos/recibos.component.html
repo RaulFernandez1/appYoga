@@ -1,0 +1,81 @@
+<div class="container-lg mb-4 mt-3">
+    <div class="mb-3 align-items-center ms-1 d-flex justify-content-between">
+        <h1>Gestion de Recibos</h1>
+        <button class="btn btn-secondary" (click)="nuevoRecibo()">+ Añadir Recibo</button>
+    </div>
+
+    <div class="d-flex gap-4 justify-content-center mb-3">
+        <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
+            <div class="flex-shrink-0">
+                <i class="bi bi-receipt fs-3"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <span class="mb-0 text-muted">Total recibos</span><br>
+                <span class="fw-bold">{{ totalRecibos }} €</span>
+            </div>
+        </div>
+        <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
+            <div class="flex-shrink-0">
+                <i class="bi bi-check2-circle fs-3"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <span class="mb-0 text-muted">Recibos pagados</span><br>
+                <span class="fw-bold">{{ recibosPagados }} €</span>
+            </div>
+        </div>
+        <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
+            <div class="flex-shrink-0">
+                <i class="bi bi-clock fs-3"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <span class="mb-0 text-muted">Recibos pendientes</span><br>
+                <span class="fw-bold">{{ recibosPendientes }} €</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive border rounded border-secundary p-4 shadow-sm">
+        <table class="table table-hover caption-top align-middle">
+            <caption class="titulo-tabla"><h4>Lista de grupos</h4></caption>
+            <thead class="table-header">
+                <tr>
+                    <td>Numero Recibo</td>
+                    <td>Fecha Recibo</td>
+                    <td>Cantidad</td>
+                    <td>Pagado</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                @for (recibo of recibos; track $index) {
+                    <tr>
+                        <td>{{recibo.numerorecibo}}</td>
+                        <td>{{recibo.fecharecibo | date:'dd/MM/yyyy' }}</td>
+                        <td>{{recibo.cantidad}}</td>
+                        <td>{{recibo.pagado}}</td>
+                        <td>
+                            <div class="">
+                                <button type="button" class="button btn-eliminar me-2" (click)="eliminarRecibo(recibo)"><i class="bi bi-trash3"></i></button>
+                                @if (!recibo.pagado) {<button type="button" class="button btn-pagar me-2" (click)="pagarRecibo(recibo)"><i class="bi bi-check2-circle"></i></button>}
+                                <button type="button" class="button btn-imprimir" (click)="imprimirRecibo(recibo)"><i class="bi bi-printer"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- PDF generado -->
+
+@if (reciboSeleccionado == null) {
+    <div id="reciboPDF" class="container">
+        <h2>Recibo de Pago</h2>
+        <p><strong>ID:</strong> {{ "REC-2025-06-0001" }}</p>
+        <p><strong>Cantidad:</strong> {{ "25" }} €</p>
+        <p><strong>Alumno:</strong> #{{ "1" }}</p>
+        <p><strong>Fecha:</strong> {{ "27/07/2025" }}</p>
+    </div>
+}
