@@ -32,8 +32,8 @@
                     <td>DNI</td>
                     <td>Nombre</td>
                     <td>Telefono</td>
-                    <td>Fecha de Alta</td>
-                    <td>Activo</td>
+                    <td class="text-center">Fecha de Alta</td>
+                    <td class="text-center">Estado</td>
                     <td>Acciones</td>
                 </tr>
             </thead>
@@ -43,14 +43,17 @@
                         <td>{{ alumno.dni }}</td>
                         <td>{{ alumno.apellido1 + ' ' + alumno.apellido2 + ', ' + alumno.nombre }}</td>
                         <td>{{ alumno.telefono1 }}</td>
-                        <td>{{ alumno.fechaalta | date:'dd/MM/yyyy'}}</td>
-                        <td><i [class]="'bi bi-' + ((alumno.activo)? 'check-circle' : 'slash-circle')"></i></td>
+                        <td class="text-center">{{ alumno.fechaalta | date:'dd/MM/yyyy'}}</td>
+                        <td class="text-center">
+                            @if (alumno.activo) {<span class="badge bg-success-subtle text-success badge-pill">Activo</span>}
+                            @else {<span class="badge bg-danger-subtle text-danger badge-pill">Baja</span>}
+                        </td>
                         <td>
                             <button class="button btn-editar me-2" (click)="editarAlumno(alumno)"><i class="bi bi-pencil-square"></i></button>
                             @if (alumno.activo) {
-                                <button class="button" (click)="bajaAlumno(alumno)">baja</button>
+                                <button class="button btn-baja" (click)="bajaAlumno(alumno)"><i class="bi bi-person-slash"></i></button>
                             } @else {
-                                <button class="button" (click)="altaAlumno(alumno)">alta</button>
+                                <button class="button btn-alta" (click)="altaAlumno(alumno)"><i class="bi bi-person-plus"></i></button>
                             }
                         </td>
                     </tr>

@@ -1,7 +1,7 @@
 <div class="container-lg mb-4 mt-3">
     <div class="mb-3 align-items-center ms-1 d-flex justify-content-between">
         <h1>Gestion de Recibos</h1>
-        <button class="btn btn-secondary" (click)="nuevoRecibo()">+ Añadir Recibo</button>
+        <button class="btn btn-secondary" (click)="nuevoRecibo()">+ Añadir Recibos</button>
     </div>
 
     <div class="d-flex gap-4 justify-content-center mb-3">
@@ -35,14 +35,14 @@
     </div>
 
     <div class="table-responsive border rounded border-secundary p-4 shadow-sm">
-        <table class="table table-hover caption-top align-middle">
+        <table class="table table-hover caption-top align-middle text-center">
             <caption class="titulo-tabla"><h4>Lista de grupos</h4></caption>
             <thead class="table-header">
                 <tr>
                     <td>Numero Recibo</td>
                     <td>Fecha Recibo</td>
-                    <td>Cantidad</td>
-                    <td>Pagado</td>
+                    <td>Importe</td>
+                    <td>Estado</td>
                     <td>Acciones</td>
                 </tr>
             </thead>
@@ -51,8 +51,14 @@
                     <tr>
                         <td>{{recibo.numerorecibo}}</td>
                         <td>{{recibo.fecharecibo | date:'dd/MM/yyyy' }}</td>
-                        <td>{{recibo.cantidad}}</td>
-                        <td>{{recibo.pagado}}</td>
+                        <td>{{recibo.cantidad}} €</td>
+                        <td>
+                            @if (recibo.pagado) {
+                                <span class="badge bg-success-subtle text-success badge-pill">Pagado</span>
+                            } @else {
+                                <span class="badge bg-warning-subtle text-warning badge-pill">Pendiente</span>
+                            }
+                        </td>
                         <td>
                             <div class="">
                                 <button type="button" class="button btn-eliminar me-2" (click)="eliminarRecibo(recibo)"><i class="bi bi-trash3"></i></button>

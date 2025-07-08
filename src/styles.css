@@ -5,6 +5,13 @@ html, body {
     height: 100%;
 }
 
+/** Estilado alerta */
+.alerta {
+  z-index: 1055;
+  min-width: 300px;
+  max-width: 90%;
+}
+
 /** Estilado de tablas */
 .table-header td  {
   color: grey;
@@ -66,4 +73,35 @@ html, body {
 }
 .btn-imprimir:hover {
   background-color: #e4f4fe;
+}
+
+.btn-baja {
+  border: 1px solid #f5c2c7;
+  color: #dc3545;
+  background-color: #f8d7da;
+}
+.btn-baja:hover {
+  background-color: #f1b0b7;
+}
+
+.btn-alta {
+  border: 1px solid #badbcc;
+  color: #198754;
+  background-color: #d1e7dd;
+}
+.btn-alta:hover {
+  background-color: #b0d9cc;
+}
+
+
+.btn-login {
+  border-radius: 0.5rem;
+  padding: 0.5rem 4rem;
+  margin: 1rem auto 1rem auto;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-login:hover {
+  background-color: rgb(196, 196, 196);
 }

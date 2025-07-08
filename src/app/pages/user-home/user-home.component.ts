@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { ClientOptions, Groq } from 'groq-sdk';
 import { apiKey } from '../../config/config';
 import { AsistenteService } from '../../service/asistente.service';
+import { HeaderComponent } from '../header/header.component';
 
 interface Mensajes {
   texto: string,
@@ -18,7 +19,7 @@ interface Mensajes {
 
 @Component({
   selector: 'app-user-home',
-  imports: [FooterComponent, CommonModule, FormsModule],
+  imports: [FooterComponent, CommonModule, FormsModule, HeaderComponent],
   templateUrl: './user-home.component.html',
   styleUrl: './user-home.component.css'
 })

@@ -5,6 +5,14 @@ import { GastoService } from '../../service/gasto.service';
 import { CommonModule } from '@angular/common';
 import { FormGastosComponent } from './form-gastos/form-gastos.component';
 
+
+interface TrimestreGasto {
+  nombre: string;
+  total: number;
+  porcentaje: number;
+  color: string;
+}
+
 @Component({
   selector: 'app-gastos',
   imports: [CommonModule],
@@ -14,6 +22,7 @@ import { FormGastosComponent } from './form-gastos/form-gastos.component';
 export class GastosComponent {
 
   gastos?: Gasto[];
+  trimestre?: TrimestreGasto[];
 
   constructor(private modalService: NgbModal, private gastosService: GastoService) {}
 
@@ -25,6 +34,7 @@ export class GastosComponent {
     this.gastosService.obtenerTodosGastos().subscribe((gastosAux) => {
       console.log("Gastos recibidos ==>",gastosAux);
       this.gastos = gastosAux;
+      this.actualizarListaTrimestre();
     });
   }
 
@@ -39,8 +49,47 @@ export class GastosComponent {
     })
   }
 
-  eliminarGasto(gasto: Gasto) {
+  actualizarListaTrimestre() {
+    const totalGeneral = this.gastos?.reduce((acc, g) => acc + g.cantidadgasto, 0) || 1;
+    const acumulados: { [clave: string]: number } = {
+      'Trimestre 1 (Sep-Nov)': 0,
+      'Trimestre 2 (Dic-Feb)': 0,
+      'Trimestre 3 (Mar-May)': 0,
+      'Trimestre 4 (Jun-Ago)': 0,
+    };
 
+    for (const gasto of this.gastos || []) {
+      if (!gasto.fechagasto) continue;
+
+      const fecha = gasto.fechagasto instanceof Date
+        ? gasto.fechagasto
+        : new Date(gasto.fechagasto);
+
+      if (isNaN(fecha.getTime())) continue;
+
+      const mes = fecha.getMonth() + 1;
+
+      if ([9, 10, 11].includes(mes)) acumulados['Trimestre 1 (Sep-Nov)'] += gasto.cantidadgasto;
+      else if ([12, 1, 2].includes(mes)) acumulados['Trimestre 2 (Dic-Feb)'] += gasto.cantidadgasto;
+      else if ([3, 4, 5].includes(mes)) acumulados['Trimestre 3 (Mar-May)'] += gasto.cantidadgasto;
+      else if ([6, 7, 8].includes(mes)) acumulados['Trimestre 4 (Jun-Ago)'] += gasto.cantidadgasto;
+    }
+
+    this.trimestre = Object.entries(acumulados).map(([nombre, total]) => {
+      const listaColor = ['bg-info', 'bg-warning', 'bg-danger'];
+      let index = 0;
+      const porcDecimal = totalGeneral > 0 ? (total / totalGeneral)*10 : 0;
+      if(porcDecimal >= 8) index = 2;
+      else if(porcDecimal >= 6) index = 1;
+
+      return{
+        nombre,
+        total,
+        porcentaje: porcDecimal * 10,
+        color: listaColor[index],
+      };
+    });
+    console.log("listado ==>",this.trimestre);
   }
 
 }

@@ -94,3 +94,30 @@ button {
     padding: 1rem;
 }
 */
+
+.fullscreen-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+}
+
+
+.custom-input-group .form-control {
+  background-color: #222;
+  color: white;
+  border: none;
+}
+
+.custom-input-group .input-group-text {
+  background-color: #222;
+  color: white;
+  border: none;
+}
+
+::placeholder {
+  color: rgb(194, 194, 194);
+}
+
+

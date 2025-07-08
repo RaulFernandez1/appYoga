@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, rgb(21, 96, 50), rgb(240,253,244));
+  background: linear-gradient(to right, rgb(21, 96, 50), rgb(51, 150, 83));
   padding: 1rem 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -57,3 +57,4 @@
   background-color: #d32f2f;
   color: white;
 }
+

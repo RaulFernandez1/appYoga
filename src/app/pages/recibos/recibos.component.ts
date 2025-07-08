@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, NgModule, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReciboService } from '../../service/recibo.service';
 import { FormRecibosComponent } from './form-recibos/form-recibos.component';
@@ -53,7 +53,9 @@ export class RecibosComponent {
   }
 
   eliminarRecibo(recibo: Recibo) {
-
+    this.reciboService.eliminarRecibo(recibo.id).subscribe((reciboRes) => {
+      this.actualizarRecibos();
+    })
   }
 
   pagarRecibo(recibo: Recibo) {

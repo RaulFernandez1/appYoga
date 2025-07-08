@@ -10,7 +10,14 @@ import { AuthService } from '../../service/auth.service';
 })
 export class HeaderComponent {
 
+  rol?: string;
+
   constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit() {
+    this.rol = localStorage.getItem('rol') || '';
+    console.log(this.rol);
+  }
 
   logout() {
     this.authService.logout();

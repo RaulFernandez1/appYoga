@@ -28,9 +28,11 @@ export class ReciboService {
   }
 
   obtenerRecibo(numeroRecibo: string) : Observable<Recibo> {
-      return this.httpClient.get<Recibo>(BACKEND_URI + '/recibos/buscar?numerorecibo=' + numeroRecibo);
+    return this.httpClient.get<Recibo>(BACKEND_URI + '/recibos/buscar?numerorecibo=' + numeroRecibo);
   }
 
-
+  eliminarRecibo(id: number) : Observable<void> {
+    return this.httpClient.delete<void>(BACKEND_URI + '/recibos/' + id);
+  }
 
 }

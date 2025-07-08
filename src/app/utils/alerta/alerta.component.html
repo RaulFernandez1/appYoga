@@ -1,0 +1,8 @@
+@if (visible) {
+    <div
+    @fadeInOut
+    class="alert alert-{{ tipo }} alert-dismissible position-fixed top-0 start-50 translate-middle-x mt-3 shadow"
+    style="z-index: 1055; min-width: 300px; max-width: 90%;" role="alert">
+        {{mensaje}}
+    </div>
+}

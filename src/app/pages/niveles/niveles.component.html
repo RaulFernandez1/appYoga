@@ -1,7 +1,7 @@
 <div class="container-lg mb-4 mt-3">
     <div class="mb-3 align-items-center ms-1 d-flex justify-content-between">
         <h1>Gestion de Niveles</h1>
-        <button class="btn btn-secondary" (click)="nuevoNivel()">+ Añadir nivel</button>
+        <button class="btn btn-secondary" (click)="nuevoNivel()">+ Añadir Nivel</button>
     </div>
 
     <div class="border border-secundary rounded shadow-sm mb-3">
@@ -18,9 +18,9 @@
                 <tr>
                     <td>Nombre nivel</td>
                     <td>Condicion</td>
-                    <td>Precio Mensualidad</td>
-                    <td>Precio Bonos</td>
-                    <td>Precio Clases</td>
+                    <td class="text-center">Tarifa Mensualidad</td>
+                    <td class="text-center">Tarifa Bonos</td>
+                    <td class="text-center">Tarifa Clases</td>
                     <td>Acciones</td>
                 </tr>
             </thead>
@@ -29,9 +29,9 @@
                     <tr>
                         <td>{{nivel.nombrenivel}}</td>
                         <td>{{nivel.condicion}}</td>
-                        <td>{{nivel.preciomensualidad}}</td>
-                        <td>{{nivel.preciobonos}}</td>
-                        <td>{{nivel.precioclases}}</td>
+                        <td class="text-center">{{nivel.preciomensualidad}} €</td>
+                        <td class="text-center">{{nivel.preciobonos}} €</td>
+                        <td class="text-center">{{nivel.precioclases}} €</td>
                         <td>
                             <div class="">
                                 <button type="button" class="button btn-editar me-2" (click)="editarNivel(nivel)"><i class="bi bi-pencil-square"></i></button>
