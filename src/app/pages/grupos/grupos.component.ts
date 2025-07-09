@@ -6,6 +6,7 @@ import { FormAlumnoComponent } from '../alumnos/form-alumno/form-alumno.componen
 import { FormGruposComponent } from './form-grupos/form-grupos.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AlertaService } from '../../service/alerta.service';
 
 @Component({
   selector: 'app-grupos',
@@ -21,7 +22,7 @@ export class GruposComponent {
 
   nombreGrupo: string = '';
 
-  constructor(private modalService: NgbModal, private grupoService: GrupoService) {}
+  constructor(private modalService: NgbModal, private grupoService: GrupoService, private alertaService: AlertaService) {}
 
   ngOnInit(): void {
     this.actualizarGrupos();
@@ -47,9 +48,14 @@ export class GruposComponent {
     ref.componentInstance.grupo = {id: 0, nombregrupo: '', horario: '', nivel: ''};
     ref.result.then((grupoAux) => {
       console.log('Grupo creado =>',grupoAux);
-      this.grupoService.aniadirGrupo(GrupoImpl.grupoToIGrupo(grupoAux)).subscribe((grupoRes) => {
-        console.log('Grupo creado correctamente ==>',grupoRes);
-        this.actualizarGrupos();
+      this.grupoService.aniadirGrupo(GrupoImpl.grupoToIGrupo(grupoAux)).subscribe({
+        next: (grupoRes) => {
+          console.log('Grupo creado correctamente ==>',grupoRes);
+          this.actualizarGrupos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido crear correctamente el grupo','danger');
+        }
       })
     });
   }
@@ -60,17 +66,27 @@ export class GruposComponent {
     ref.componentInstance.grupo = {id: grupo.id, nombregrupo: grupo.nombregrupo, horario: grupo.horario, nivel: grupo.nivel};
     ref.result.then((grupoAux) => {
       console.log('Grupo modificado =>',grupoAux);
-      this.grupoService.editarGrupo(grupo.id, GrupoImpl.grupoToIGrupo(grupoAux)).subscribe((grupoRes) => {
-        console.log('Grupo modificado correctamente ==>',grupoRes);
-        this.actualizarGrupos();
+      this.grupoService.editarGrupo(grupo.id, GrupoImpl.grupoToIGrupo(grupoAux)).subscribe({
+        next: (grupoRes) => {
+          console.log('Grupo modificado correctamente ==>',grupoRes);
+          this.actualizarGrupos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido modificar correctamente el grupo','danger');
+        }
       })
     });
   }
 
   eliminarGrupo(grupo: Grupo) {
-    this.grupoService.eliminarGrupo(grupo.id).subscribe((grupoRes) => {
-      console.log('Grupo eliminado',grupoRes);
-      this.actualizarGrupos();
+    this.grupoService.eliminarGrupo(grupo.id).subscribe({
+      next: (grupoRes) => {
+        console.log('Grupo eliminado',grupoRes);
+        this.actualizarGrupos();
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido eliminar el grupo con exito', 'danger');
+      }
     });
   }
 }

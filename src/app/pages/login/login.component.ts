@@ -5,6 +5,7 @@ import { User } from '../../entities/user';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertaComponent } from "../../utils/alerta/alerta.component";
+import { AlertaService } from '../../service/alerta.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
   nombre: string = '';
   @ViewChild('alerta') alertaComponent!: AlertaComponent;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private alertaService: AlertaService) {}
 
   home(): void {
     this.router.navigateByUrl('/home');
@@ -36,7 +37,7 @@ export class LoginComponent {
           this.router.navigateByUrl((localStorage.getItem('rol') === 'ADMIN')?'/home':'/userHome');
         },
         error: (e) => {
-          this.alertaComponent.mostrar('Algo salio mal','danger');
+          this.alertaService.mostrar('Algo salio mal','danger');
           console.log("Ha habido un error y no puedes pasar JUAJUAJUAJUA");
           this.usuario.username = '';
           this.usuario.password = '';
@@ -44,7 +45,7 @@ export class LoginComponent {
       });
       
     } else {
-      this.alertaComponent.mostrar('No se han introducido correctamente los campos','warning');
+      this.alertaService.mostrar('No se han introducido correctamente los campos','warning');
     }
     
   }

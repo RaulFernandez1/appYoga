@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { CommonModule } from '@angular/common';
 import { PrintRecibosComponent } from './print-recibos/print-recibos.component';
+import { AlertaService } from '../../service/alerta.service';
 
 @Component({
   selector: 'app-recibos',
@@ -24,7 +25,9 @@ export class RecibosComponent {
   reciboSeleccionado: Recibo = {id: 0, alumno: 0, cantidad: 0, fecharecibo: new Date(), numerorecibo: 'null', pagado: false};
   @ViewChild(PrintRecibosComponent) printReciboComponent!: PrintRecibosComponent;
 
-  constructor(private modalService: NgbModal, private reciboService: ReciboService, private cdr: ChangeDetectorRef) {}
+  constructor(private modalService: NgbModal, private reciboService: ReciboService, private cdr: ChangeDetectorRef,
+    private alertaService: AlertaService
+  ) {}
 
   ngOnInit() {
     this.actualizarRecibos();
@@ -45,24 +48,39 @@ export class RecibosComponent {
     ref.componentInstance.recibo = {fechaemision: null};
     ref.result.then((reciboAux) => {
       console.log("Recibo resultado ==>",reciboAux);
-      this.reciboService.generarRecibos(reciboAux).subscribe((reciboRes) => {
-        console.log("Recibo resultado correcto ==>",reciboRes);
-        this.actualizarRecibos();
+      this.reciboService.generarRecibos(reciboAux).subscribe({
+        next: (reciboRes) => {
+          console.log("Recibo resultado correcto ==>",reciboRes);
+          this.actualizarRecibos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido generar los recibos correctamente','danger');
+        }
       })
     })
   }
 
   eliminarRecibo(recibo: Recibo) {
-    this.reciboService.eliminarRecibo(recibo.id).subscribe((reciboRes) => {
-      this.actualizarRecibos();
+    this.reciboService.eliminarRecibo(recibo.id).subscribe({
+      next: (reciboRes) => {
+        this.actualizarRecibos();
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido eliminar el recibo correctamente','danger');
+      }
     })
   }
 
   pagarRecibo(recibo: Recibo) {
     recibo.pagado = true;
-    this.reciboService.editarRecibo(recibo.id,ReciboImpl.reciboToIRecibo(recibo)).subscribe((reciboRes) => {
-      console.log("Recibo modificado correctamente ==>",reciboRes);
-      this.actualizarRecibos();
+    this.reciboService.editarRecibo(recibo.id,ReciboImpl.reciboToIRecibo(recibo)).subscribe({
+      next: (reciboRes) => {
+        console.log("Recibo modificado correctamente ==>",reciboRes);
+        this.actualizarRecibos();
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido pagar correctamente el recibo','danger');
+      }
     })
   }
 
@@ -96,9 +114,5 @@ export class RecibosComponent {
         });
     }, 300); // Ajusta el delay si es necesario
   }
-
-
-
-
 
 }

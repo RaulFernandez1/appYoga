@@ -12,8 +12,8 @@
                 <span class="badge-custom">{{ tramo.nombre }}</span>
                 <strong>{{ tramo.total | currency:'EUR' }} ({{ tramo.porcentaje | number:'1.1-1' }}%)</strong>
             </div>
-            <div class="progress mb-3" style="height: 10px;">
-                <div class="progress-bar {{ tramo.color }}" role="progressbar" [style.width.%]="tramo.porcentaje"></div>
+            <div class="progress mb-3 animaBar" style="height: 10px;">
+                <div class="progress-bar {{ tramo.color }} animaBar" role="progressbar" [style.width.%]="tramo.porcentaje"></div>
             </div>
             }
         </div>
@@ -42,3 +42,6 @@
     </div>
 </div>
 
+<div @progress class="d-flex animaBar p-4 border border-dark">
+    Contenido
+</div>

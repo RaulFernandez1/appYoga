@@ -5,6 +5,7 @@ import { NivelService } from '../../service/nivel.service';
 import { FormNivelesComponent } from './form-niveles/form-niveles.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AlertaService } from '../../service/alerta.service';
 
 @Component({
   selector: 'app-niveles',
@@ -19,7 +20,7 @@ export class NivelesComponent {
   nivelesRes?: Nivel[];
   nombreNivel: string = '';
 
-  constructor(private modalService: NgbModal, private nivelService: NivelService) {}
+  constructor(private modalService: NgbModal, private nivelService: NivelService, private alertaService: AlertaService) {}
 
   ngOnInit(): void {
     this.actualizarNiveles();
@@ -48,9 +49,14 @@ export class NivelesComponent {
     };
     ref.result.then((nivelAux) => {
       console.log("Nivel nuevo creado =", nivelAux);
-      this.nivelService.aniadirNivel(NivelImpl.nivelToINivel(nivelAux)).subscribe((nivelRes) => {
-        console.log("Nivel creado resultado", nivelRes);
-        this.actualizarNiveles();
+      this.nivelService.aniadirNivel(NivelImpl.nivelToINivel(nivelAux)).subscribe({
+        next: (nivelRes) => {
+          console.log("Nivel creado resultado", nivelRes);
+          this.actualizarNiveles();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido crear correctamente el nivel','danger');
+        }
       });
     })
   }
@@ -64,17 +70,27 @@ export class NivelesComponent {
     };
     ref.result.then((nivelAux) => {
       console.log("Nivel modificado = ",nivelAux);
-      this.nivelService.editarNivel(nivel.id, nivelAux).subscribe((nivelRes) => {
-        console.log("Nivel modificado correcto = ",nivelRes);
-        this.actualizarNiveles();
+      this.nivelService.editarNivel(nivel.id, nivelAux).subscribe({
+        next: (nivelRes) => {
+          console.log("Nivel modificado correcto = ",nivelRes);
+          this.actualizarNiveles();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido modificar correctamente el nivel','danger');
+        }
       })
     })
   }
 
   eliminarNivel(nivel: Nivel) {
-    this.nivelService.eliminarNivel(nivel.id).subscribe((nivelResult) => {
-      console.log('Nivel eliminado',nivelResult);
-      this.actualizarNiveles();
+    this.nivelService.eliminarNivel(nivel.id).subscribe({
+      next: (nivelResult) => {
+        console.log('Nivel eliminado',nivelResult);
+        this.actualizarNiveles();
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido eliminar el nivel con exito','danger');
+      }
     });
   }
 

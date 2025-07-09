@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Subscription } from 'rxjs';
+import { Alerta, AlertaService } from '../../service/alerta.service';
 
 @Component({
   selector: 'app-alerta',
@@ -19,17 +21,29 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ]
 })
 export class AlertaComponent {
-  @Input() tipo: 'success' | 'danger' | 'warning' | 'info' = 'info';
+  tipo: 'success' | 'danger' | 'warning' | 'info' = 'info';
   mensaje: string = '';
   visible: boolean = false;
 
-  mostrar(mensaje: string, tipo: 'success' | 'danger' | 'warning' | 'info' = 'info', duracion: number = 3000) {
-    this.mensaje = mensaje;
-    this.tipo = tipo;
-    this.visible = true;
+  private sub!: Subscription;
 
-    setTimeout(() => {
-      this.visible = false;
-    }, duracion);
+  constructor(private alertaService: AlertaService) {}
+
+  ngOnInit() {
+    this.sub = this.alertaService.alerta$.subscribe((alerta: Alerta) => {
+      this.mensaje = alerta.mensaje;
+      this.tipo = alerta.tipo ?? 'info';
+      this.visible = true;
+
+      setTimeout(() => {
+        this.visible = false;
+      }, alerta.duracion ?? 3000);
+  
+    })
+  } 
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
+
 }

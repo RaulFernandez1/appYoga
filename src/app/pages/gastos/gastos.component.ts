@@ -4,6 +4,9 @@ import { Gasto, GastoImpl } from '../../entities/gasto';
 import { GastoService } from '../../service/gasto.service';
 import { CommonModule } from '@angular/common';
 import { FormGastosComponent } from './form-gastos/form-gastos.component';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { color } from 'html2canvas/dist/types/css/types/color';
+import { AlertaService } from '../../service/alerta.service';
 
 
 interface TrimestreGasto {
@@ -17,14 +20,25 @@ interface TrimestreGasto {
   selector: 'app-gastos',
   imports: [CommonModule],
   templateUrl: './gastos.component.html',
-  styleUrl: './gastos.component.css'
+  styleUrl: './gastos.component.css',
+  animations: [
+    trigger('progress', [
+      transition(':enter', [
+        style({color: 'blue'}),
+        animate('300ms ease-out', style({ color: 'white' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ color: 'red' }))
+      ])
+    ])
+  ]
 })
 export class GastosComponent {
 
   gastos?: Gasto[];
   trimestre?: TrimestreGasto[];
 
-  constructor(private modalService: NgbModal, private gastosService: GastoService) {}
+  constructor(private modalService: NgbModal, private gastosService: GastoService, private alertaService: AlertaService) {}
 
   ngOnInit() {
     this.actualizarGastos();
@@ -42,9 +56,14 @@ export class GastosComponent {
     let ref = this.modalService.open(FormGastosComponent);
     ref.componentInstance.gasto = {id: 0, fechagasto: null, cantidadgasto: 0, descripcion: ''};
     ref.result.then((gastoAux) => {
-      this.gastosService.aniadirGasto(GastoImpl.gastoToIGasto(gastoAux)).subscribe((gastoRes) => {
-        console.log("Gasto añadido correctamente ==>",gastoRes);
-        this.actualizarGastos();
+      this.gastosService.aniadirGasto(GastoImpl.gastoToIGasto(gastoAux)).subscribe({
+        next: (gastoRes) => {
+          console.log("Gasto añadido correctamente ==>",gastoRes);
+          this.actualizarGastos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido añadir el grupo correctamente','danger')
+        }
       })
     })
   }

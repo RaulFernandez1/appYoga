@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormAlumnoComponent } from './form-alumno/form-alumno.component';
@@ -7,6 +7,8 @@ import { Grupo } from '../../entities/grupo';
 import { AlumnoService } from '../../service/alumno.service';
 import { GrupoService } from '../../service/grupo.service';
 import { CommonModule } from '@angular/common';
+import { AlertaComponent } from '../../utils/alerta/alerta.component';
+import { AlertaService } from '../../service/alerta.service';
 
 
 export interface Alumnos {
@@ -29,7 +31,11 @@ export class AlumnosComponent {
   selectedGroup: string = '';
   activo: number = -1;
 
-  constructor(private modalService: NgbModal, private alumnoService: AlumnoService, private grupoService: GrupoService) {}
+  @ViewChild('alerta') alertaComponent!: AlertaComponent;
+
+  constructor(private modalService: NgbModal, private alumnoService: AlumnoService, private grupoService: GrupoService,
+    private alertaService: AlertaService
+  ) {}
 
   ngOnInit(): void {
     this.actualizarAlumnos();
@@ -73,9 +79,14 @@ export class AlumnosComponent {
     }
     ref.result.then((alumnoAux) => {
       console.log("Alumno nuevo creado =", alumnoAux);
-      this.alumnoService.aniadirAlumno(AlumnoImpl.alumnoToIAlumno(alumnoAux)).subscribe((alumnoRes) => {
-        console.log("Alumno creado correctamente ==>",alumnoRes);
-        this.actualizarAlumnos();
+      this.alumnoService.aniadirAlumno(AlumnoImpl.alumnoToIAlumno(alumnoAux)).subscribe({
+        next: (alumnoRes) => {
+          console.log("Alumno creado correctamente ==>",alumnoRes);
+          this.actualizarAlumnos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido crear correctamente el alumno','danger');
+        }
       });
     });
 
@@ -93,9 +104,14 @@ export class AlumnosComponent {
     }
     ref.result.then((alumnoAux) => {
       //Actualiza alumno
-      this.alumnoService.editarAlumno(alumno.id,AlumnoImpl.alumnoToIAlumno(alumnoAux)).subscribe((alumnoRes) => {
-        console.log("Alumno modificado correctamente ==>",alumnoRes);
-        this.actualizarAlumnos();
+      this.alumnoService.editarAlumno(alumno.id,AlumnoImpl.alumnoToIAlumno(alumnoAux)).subscribe({
+        next: (alumnoRes) => {
+          console.log("Alumno modificado correctamente ==>",alumnoRes);
+          this.actualizarAlumnos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido actualizar correctamente el alumno','danger');
+        }
       })
     });
   }
@@ -103,10 +119,15 @@ export class AlumnosComponent {
   bajaAlumno(alumno: Alumno) {
     alumno.activo = false;
     alumno.fechabaja = new Date();
-    this.alumnoService.editarAlumno(alumno.id,AlumnoImpl.alumnoToIAlumno(alumno)).subscribe((alumnoRes) => {
-      console.log("Alumno modificado ==>",alumnoRes,alumno);
-      this.actualizarAlumnos();
-    })
+    this.alumnoService.editarAlumno(alumno.id,AlumnoImpl.alumnoToIAlumno(alumno)).subscribe({
+        next: (alumnoRes) => {
+          console.log("Alumno modificado ==>",alumnoRes);
+          this.actualizarAlumnos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido dar de baja correctamente el alumno','danger');
+        }
+      })
     // Añadir fecha baja actual
 
   }
@@ -114,10 +135,15 @@ export class AlumnosComponent {
   altaAlumno(alumno: Alumno) {
     alumno.activo = true;
     alumno.fechabaja = null;
-    this.alumnoService.editarAlumno(alumno.id,AlumnoImpl.alumnoToIAlumno(alumno)).subscribe((alumnoRes) => {
-      console.log("Alumno modificado ==>",alumnoRes);
-      this.actualizarAlumnos();
-    })
+    this.alumnoService.editarAlumno(alumno.id,AlumnoImpl.alumnoToIAlumno(alumno)).subscribe({
+        next: (alumnoRes) => {
+          console.log("Alumno modificado ==>",alumnoRes);
+          this.actualizarAlumnos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido dar de alta correctamente el alumno','danger');
+        }
+      })
     // Añadir fecha alta actual 
     // Borrar fecha baja actual
   }

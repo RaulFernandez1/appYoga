@@ -9,3 +9,22 @@
 .badge-custom:hover {
   background-color: rgba(203, 203, 203, 1);
 }
+
+
+.animaBar {
+  animation-name: progressBar;
+  animation-duration: infinite;
+}
+
+@keyframes progressBar {
+  from {
+    background-color: blue;
+    color: green;
+    transform: translateX(-9999px);
+  }
+  to {
+    background-color: red;
+    color: blueviolet;
+    transform: translateX(0px);
+  }
+}

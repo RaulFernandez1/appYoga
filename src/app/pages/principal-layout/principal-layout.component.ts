@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
+import { AlertaComponent } from '../../utils/alerta/alerta.component';
 
 @Component({
   selector: 'app-principal-layout',
