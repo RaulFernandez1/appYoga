@@ -7,7 +7,8 @@ import { NivelService } from '../../../service/nivel.service';
 import { GrupoService } from '../../../service/grupo.service';
 import { Nivel } from '../../../entities/nivel';
 import { Grupo } from '../../../entities/grupo';
-import { forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
+import { AlumnoService } from '../../../service/alumno.service';
 
 @Component({
   selector: 'app-form-alumno',
@@ -29,7 +30,9 @@ export class FormAlumnoComponent {
   grupos: Grupo[] = [];
   gruposRes?: Grupo[];
 
-  constructor(public modal: NgbActiveModal, private nivelService: NivelService, private grupoService: GrupoService) {}
+  constructor(public modal: NgbActiveModal, private nivelService: NivelService, private grupoService: GrupoService,
+    private alumnoService: AlumnoService
+  ) {}
 
   ngOnInit() {
     forkJoin({
@@ -59,7 +62,7 @@ export class FormAlumnoComponent {
     this.actualizarPrecio();
   }
 
-  guardarAlumno(): void {
+  async guardarAlumno(): Promise<void> {
     this.limpiarMensajes();
     console.log("El alumno es ==>",this.alumno);
     if(!this.isAlumnoValid()) {
@@ -67,6 +70,13 @@ export class FormAlumnoComponent {
         this.errorMensaje = 'Por favor, complete todos los campos';
         return;
     }
+
+    const isAlreadyIn = await this.isAlreadyIn();
+    if(isAlreadyIn && this.accion === 'Añadir') {
+      this.errorMensaje = 'Alumno ya existente';
+      return;
+    }
+
     this.tipoPago();
     this.modal.close(this.alumno);
   }
@@ -135,6 +145,22 @@ export class FormAlumnoComponent {
     && this.alumno.condicion != ''
     && this.alumno.precio != 0
     && this.alumnoTipoPago != '';
+  }
+
+  async isAlreadyIn() : Promise<boolean> {
+    if(this.alumno.dni === '') return true;
+
+    try {
+      const alumnoRes = await firstValueFrom(this.alumnoService.obtenerAlumno(this.alumno.dni));
+      console.log('Alumno ya existe', alumnoRes);
+      return true;
+    } catch (error: any) {
+      if (error.status === 404) {
+        return false;
+      }
+      console.error('Error inesperado', error);
+      return true;
+    }
   }
 
 }

@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Gasto } from '../../../entities/gasto';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { GastoService } from '../../../service/gasto.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-gastos',
@@ -15,14 +17,21 @@ export class FormGastosComponent {
   gasto: Gasto = {id: 0, fechagasto: null, cantidadgasto: 0, descripcion: ''};
   errorMensaje: string = '';
 
-  constructor(public modal: NgbActiveModal) {}
+  constructor(public modal: NgbActiveModal, private gastoService: GastoService) {}
 
-  guardarGasto(): void {
+  async guardarGasto(): Promise<void> {
     this.limpiarMensajes();
     if(!this.isGastoValid()) {
         this.errorMensaje = 'Por favor, complete todos los campos';
         return;
-      }
+    }
+
+    const isAlreadyIn = await this.isAlreadyIn();
+    if(isAlreadyIn) {
+      this.errorMensaje = 'Gasto ya existente';
+      return;
+    }
+
     this.modal.close(this.gasto);
   }
   limpiarMensajes(): void {
@@ -33,6 +42,22 @@ export class FormGastosComponent {
     return this.gasto.fechagasto != null
       && this.gasto.descripcion != ''
       && this.gasto.cantidadgasto != 0;
+  }
+
+  async isAlreadyIn() : Promise<boolean> {
+    if(!this.isGastoValid()) return true;
+
+    try {
+      const gastoRes = await firstValueFrom(this.gastoService.obtenerGasto(this.gasto.fechagasto ?? new Date(),this.gasto.descripcion,this.gasto.cantidadgasto));
+      console.log('Gasto ya existe', gastoRes);
+      return true;
+    } catch (error: any) {
+      if (error.status === 404) {
+        return false;
+      }
+      console.error('Error inesperado', error);
+      return true;
+    }
   }
 
 }

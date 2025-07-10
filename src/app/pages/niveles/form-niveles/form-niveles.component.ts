@@ -3,6 +3,8 @@ import { Nivel, NivelImpl } from '../../../entities/nivel';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NivelService } from '../../../service/nivel.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-niveles',
@@ -16,14 +18,21 @@ export class FormNivelesComponent {
   accion?: 'Añadir' | 'Editar';
   errorMensaje: string = '';
   
-  constructor(public modal: NgbActiveModal) {}
+  constructor(public modal: NgbActiveModal, private nivelService: NivelService) {}
 
-  guardarNivel(): void {
+  async guardarNivel(): Promise<void> {
     this.limpiarMensajes();
     if(!this.isNivelValid()) {
         this.errorMensaje = 'Por favor, complete todos los campos';
         return;
-      }
+    }
+
+    const alreadyIn = await this.alreadyIn();
+    if(alreadyIn && this.accion === 'Añadir') {
+      this.errorMensaje = 'Nivel ya existente'
+      return;
+    }
+
     this.modal.close(this.nivel);
   }
   limpiarMensajes(): void {
@@ -36,6 +45,22 @@ export class FormNivelesComponent {
       && this.nivel.preciomensualidad != 0
       && this.nivel.preciobonos != 0
       && this.nivel.precioclases != 0;
+  }
+
+  async alreadyIn(): Promise<boolean> {
+    if(this.nivel.nombrenivel === '' || this.nivel.condicion === '') return true;
+
+    try {
+      const nivelRes = await firstValueFrom(this.nivelService.obtenerNivel(this.nivel.nombrenivel,this.nivel.condicion));
+      console.log('Nivel ya existe', nivelRes);
+      return true;
+    } catch (error: any) {
+      if (error.status === 404) {
+        return false;
+      }
+      console.error('Error inesperado', error);
+      return true;
+    }
   }
 
 }

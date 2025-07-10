@@ -27,4 +27,8 @@ export class NivelService {
     return this.httpClient.get<Nivel[]>(BACKEND_URI + '/niveles');
   }
 
+  obtenerNivel(nombrenivel: string, condicion: string) {
+    return this.httpClient.get<Nivel>(BACKEND_URI + '/niveles/buscar?nombrenivel='+nombrenivel+'&condicion='+condicion);
+  }
+
 }
