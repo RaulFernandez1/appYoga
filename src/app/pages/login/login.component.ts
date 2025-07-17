@@ -15,7 +15,7 @@ import { AlertaService } from '../../service/alerta.service';
 })
 export class LoginComponent {
 
-  usuario: User = {username: 'admin', password: 'admin'};
+  usuario: User = {username: 'usuario', password: 'usuario'};
   nombre: string = '';
   @ViewChild('alerta') alertaComponent!: AlertaComponent;
 

@@ -9,6 +9,8 @@ import { GrupoService } from '../../service/grupo.service';
 import { CommonModule } from '@angular/common';
 import { AlertaComponent } from '../../utils/alerta/alerta.component';
 import { AlertaService } from '../../service/alerta.service';
+import { MensajeService } from '../../service/mensaje.service';
+import { IMensaje } from '../../entities/mensaje';
 
 
 export interface Alumnos {
@@ -34,7 +36,7 @@ export class AlumnosComponent {
   @ViewChild('alerta') alertaComponent!: AlertaComponent;
 
   constructor(private modalService: NgbModal, private alumnoService: AlumnoService, private grupoService: GrupoService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService, private mensajeService: MensajeService
   ) {}
 
   ngOnInit(): void {
@@ -146,6 +148,28 @@ export class AlumnosComponent {
       })
     // Añadir fecha alta actual 
     // Borrar fecha baja actual
+  }
+
+  enviarMensaje(alumno: Alumno) {
+    let mensaje: IMensaje = {contenido: 'Prueba1', fechaEnvio: new Date(), alumno_id: alumno.id};
+    this.mensajeService.aniadirMensaje(mensaje).subscribe({
+      next: (mensajeRes) => {
+        console.log("Mensaje enviado correctamente ==>",mensajeRes);
+        this.mensajeService.obtenerTodosMensajesPorIdAlumno(alumno.id).subscribe({
+          next: (mensajeRes) => {
+            console.log("Lista de mensajes ==>",mensajeRes);
+          },
+          error: (e) => {
+            console.log("**Se ha producido un error ==>",e);
+          }
+        });
+      },
+      error: (e) => {
+        console.log("Se ha producido un error ==>",e);
+      }
+    });
+
+    
   }
 
 }

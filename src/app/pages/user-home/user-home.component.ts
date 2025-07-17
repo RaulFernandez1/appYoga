@@ -10,6 +10,7 @@ import { ClientOptions, Groq } from 'groq-sdk';
 import { apiKey } from '../../config/config';
 import { AsistenteService } from '../../service/asistente.service';
 import { HeaderComponent } from '../header/header.component';
+import { AlertaService } from '../../service/alerta.service';
 
 interface Mensajes {
   texto: string,
@@ -31,7 +32,10 @@ export class UserHomeComponent {
 
   @ViewChild('chatContainer') private chatContainer!: ElementRef;
 
-  constructor(private authService: AuthService, private router: Router, private alumnoService: AlumnoService, private asistenteService: AsistenteService) {}
+  constructor(private authService: AuthService, private router: Router, private alumnoService: AlumnoService, 
+    private asistenteService: AsistenteService,
+    private alertaService: AlertaService
+  ) {}
 
   ngOnInit() {
     const alumnoid = Number(localStorage.getItem('alumnoid'));
@@ -68,7 +72,16 @@ export class UserHomeComponent {
     this.mensajes.push(mensajeAsistente);
 
     // Espera respuesta de Groq por streaming
-    const stream = await this.asistenteService.obtenerRespuesta(mensajeUsuario);
+    const stream = await this.asistenteService.obtenerRespuesta(mensajeUsuario)
+    .catch(
+      error => {
+        const err = TypeError(error);
+        if(err.message === 'Error: Connection error.') {
+          this.alertaService.mostrar("Se ha perdido la conexión con el asistente","warning")
+        }
+        return [{choices: [{delta: {content: "No se ha podido procesar el mensaje correctamente."}}]}];
+      }
+    );
 
     for await (const chunk of stream) {
       const delta = chunk.choices[0]?.delta?.content;
