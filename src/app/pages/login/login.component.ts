@@ -37,7 +37,7 @@ export class LoginComponent {
           this.router.navigateByUrl((localStorage.getItem('rol') === 'ADMIN')?'/home':'/userHome');
         },
         error: (e) => {
-          this.alertaService.mostrar('Algo salio mal','danger');
+          this.alertaService.mostrar('El usuario no existe','danger');
           console.log("Ha habido un error y no puedes pasar JUAJUAJUAJUA");
           this.usuario.username = '';
           this.usuario.password = '';

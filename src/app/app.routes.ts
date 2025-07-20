@@ -10,6 +10,7 @@ import { NivelesComponent } from './pages/niveles/niveles.component';
 import { GastosComponent } from './pages/gastos/gastos.component';
 import { UserHomeComponent } from './pages/user-home/user-home.component';
 import { RecibosComponent } from './pages/recibos/recibos.component';
+import { UserMensajesComponent } from './pages/user-mensajes/user-mensajes.component';
 
 export const routes: Routes = [
 
@@ -20,6 +21,11 @@ export const routes: Routes = [
     {
         path: 'userHome',
         component: UserHomeComponent,
+        canActivate: [AuthGuards],
+    },
+    {
+        path: 'userHome/mensajes',
+        component: UserMensajesComponent,
         canActivate: [AuthGuards]
     },
     {

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ReciboRequest } from '../../../entities/recibo';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,17 +11,27 @@ import { CommonModule } from '@angular/common';
   styleUrl: './form-recibos.component.css'
 })
 export class FormRecibosComponent {
+  @ViewChild('form') formRef!: NgForm;
+  formSubmitted: boolean = false;
+
   recibo: ReciboRequest = {fechaemision: null};
   errorMensaje = '';
 
   constructor(public modal: NgbActiveModal) {}
 
   guardarRecibo(): void {
+    this.formSubmitted = true;
     this.limpiarMensajes();
+
+    if (!this.formRef.valid) {
+      this.errorMensaje = 'Por favor, complete todos los campos correctamente.';
+      return;
+    }
+    
     if(!this.isReciboValid()) {
         this.errorMensaje = 'Por favor, complete todos los campos';
         return;
-      }
+    }
     this.modal.close(this.recibo);
   }
   limpiarMensajes(): void {

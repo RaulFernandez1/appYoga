@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Grupo } from '../../../entities/grupo';
 import { Nivel } from '../../../entities/nivel';
@@ -15,6 +15,8 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './form-grupos.component.css'
 })
 export class FormGruposComponent {
+  @ViewChild('form') formRef!: NgForm;
+  formSubmitted: boolean = false;
 
   grupo: Grupo = {id: 0, nombregrupo: '', horario: '', nivel: ''};
   niveles?: Nivel[];
@@ -32,7 +34,14 @@ export class FormGruposComponent {
   }
 
   async guardarNivel(): Promise<void> {
+    this.formSubmitted = true;
     this.limpiarMensajes();
+
+    if (!this.formRef.valid) {
+      this.errorMensaje = 'Por favor, complete todos los campos correctamente.';
+      return;
+    }
+
     if(!this.isGrupoValid()) {
       this.errorMensaje = 'Por favor, complete todos los campos';
       return;

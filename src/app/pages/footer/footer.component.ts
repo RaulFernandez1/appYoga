@@ -13,7 +13,7 @@ export class FooterComponent {
 
   ngOnInit() {
     this.rol = localStorage.getItem('rol') || '';
-    console.log(this.rol);
+    /*console.log(this.rol);*/
   }
 
   scrollUp() {

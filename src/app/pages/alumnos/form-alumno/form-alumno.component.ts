@@ -10,6 +10,10 @@ import { Grupo } from '../../../entities/grupo';
 import { firstValueFrom, forkJoin } from 'rxjs';
 import { AlumnoService } from '../../../service/alumno.service';
 
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+
 @Component({
   selector: 'app-form-alumno',
   imports: [FormsModule, CommonModule],
@@ -17,10 +21,13 @@ import { AlumnoService } from '../../../service/alumno.service';
   styleUrl: './form-alumno.component.css'
 })
 export class FormAlumnoComponent {
+  @ViewChild('form') formRef!: NgForm;
+
   errorMensaje: string = '';
+  formSubmitted: boolean = false;
   accion?: 'Añadir' | 'Editar';
   alumno: Alumno = {id: 0, dni: '', nombre: '', apellido1: '', apellido2: '', fechanacimiento: new Date(), profesion: '',
-    direccion: '', poblacion: '', provincia: '', codigopostal: '', telefono1: '', telefono2: '', fechaalta: new Date(), 
+    direccion: '', poblacion: '', provincia: '', codigopostal: '', correo: '', telefono1: '', telefono2: '', fechaalta: new Date(), 
     fechabaja: null, condicion: '', precio: 0, activo: true, bonos: false, clases: false, mensualidad: false, grupo_id: 0
   }
   
@@ -63,8 +70,17 @@ export class FormAlumnoComponent {
   }
 
   async guardarAlumno(): Promise<void> {
+    this.formSubmitted = true;
     this.limpiarMensajes();
     console.log("El alumno es ==>",this.alumno);
+
+    if (!this.formRef.valid) {
+      this.errorMensaje = 'Por favor, complete todos los campos correctamente.';
+      return;
+    }
+
+    console.log('Prueba2')
+
     if(!this.isAlumnoValid()) {
         this.tipoPago();
         this.errorMensaje = 'Por favor, complete todos los campos';
@@ -130,6 +146,7 @@ export class FormAlumnoComponent {
   }
 
   isAlumnoValid(): boolean {
+    const correoValido = this.alumno.correo.match(/^[A-Za-z0-9_-]{4,}@gmail\.com$/) === null ? false : true;
     return this.alumno.dni != '' 
     && this.alumno.nombre != ''
     && this.alumno.apellido1 != ''
@@ -138,6 +155,8 @@ export class FormAlumnoComponent {
     && this.alumno.direccion != ''
     && this.alumno.poblacion != ''
     && this.alumno.provincia != ''
+    && correoValido
+    && this.alumno.correo != ''
     && this.alumno.telefono1 != ''
     && this.alumno.telefono2 != ''
     && this.alumno.codigopostal != ''

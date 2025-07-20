@@ -1,5 +1,6 @@
-<header class="header bg-success pt-4 pb-4">
+<header class="header pt-4 pb-4">
     <div class="left-section">
+        <!--
         <h2 class="text-light">Sadhana de Yoga</h2>
         @if (this.rol === 'ADMIN') {
             <nav class="nav-buttons">
@@ -11,8 +12,61 @@
                 <button class="nav-link" [routerLink]="['/home/recibos']">Recibos</button>
             </nav>
         }
+        -->
+        <h2 class="text-light">Sadhana de Yoga</h2>
+        <nav class="d-flex gap-3 align-items-center text-white p-2">
+            @if (this.rol === 'ADMIN') {
+                <a class="nav-link d-flex align-items-center btn-navbar" routerLink="/home">
+                    <i class="bi bi-house-door me-2"></i>
+                    <span class="d-none d-xl-inline">Home</span>
+                </a>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/alumnos">
+                    <i class="bi bi-person-badge me-2"></i>
+                    <span class="d-none d-xl-inline">Alumnos</span>
+                </a>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/grupos">
+                    <i class="bi bi-people me-2"></i>
+                    <span class="d-none d-xl-inline">Grupos</span>
+                </a>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/niveles">
+                    <i class="bi bi-graph-up-arrow me-2"></i>
+                    <span class="d-none d-xl-inline">Niveles</span>
+                </a>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/gastos">
+                    <i class="bi bi-currency-dollar me-2"></i>
+                    <span class="d-none d-xl-inline">Gastos</span>
+                </a>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/recibos">
+                    <i class="bi bi-receipt-cutoff me-2"></i>
+                    <span class="d-none d-xl-inline">Recibos</span>
+                </a>
+            } @else if (this.rol === 'USER') {
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/userHome">
+                    <i class="bi bi-person me-2"></i>
+                    <span class="d-none d-xl-inline">Perfil</span>
+                </a>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar position-relative" routerLink="/userHome/mensajes">
+                    <i class="bi bi-chat-left-text me-2"></i>
+                    <span class="d-none d-xl-inline">Mensajes</span>
+                </a>
+            }
+        </nav>
+
     </div>
     <div class="right-section">
-      <button class="logout-button" (click)="logout()"><i class="bi bi-box-arrow-right"></i>  Cerrar sesión</button>
+        <div class="dropdown">
+            <button class="button btn-perfil rounded-circle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">{{perfil.letra}}</button>
+            <ul class="dropdown-menu dropdown-menu-ligth" style="width: 250px;">
+                <li>
+                    <div class="dropdown-item">
+                        <span class="fs-5 text-start">{{perfil.nombre}}</span><br>
+                        <span class="text-secondary" style="font-size: smaller;">{{perfil.correo}}</span>
+                    </div>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item btn-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i>  Cerrar sesión</button></li>
+            </ul>
+        </div>
+        <!--<button class="logout-button" (click)="logout()"><i class="bi bi-box-arrow-right"></i>  Cerrar sesión</button>-->
     </div>
 </header>

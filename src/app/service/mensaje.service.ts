@@ -15,6 +15,10 @@ export class MensajeService {
     return this.httpClient.post<IMensaje>(BACKEND_URI + '/mensajes', mensaje);
   }
 
+  editarMensaje(id: number, mensaje: IMensaje) : Observable<IMensaje> {
+    return this.httpClient.put<IMensaje>(BACKEND_URI + '/mensajes/' + id, mensaje);
+  }
+
   eliminarMensaje(id: number) : Observable<void> {
     return this.httpClient.delete<void>(BACKEND_URI + '/mensajes/' + id);
   }

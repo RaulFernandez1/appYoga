@@ -5,6 +5,12 @@ html, body {
     height: 100%;
 }
 
+.app-container {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: 6rem auto 7rem;
+}
+
 /** Estilado alerta */
 .alerta {
   z-index: 1055;
@@ -104,4 +110,33 @@ html, body {
 
 .btn-login:hover {
   background-color: rgb(196, 196, 196);
+}
+
+.btn-perfil {
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 0;
+}
+
+.btn-perfil:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-logout {
+  color: black;
+}
+
+.btn-logout:hover {
+  background-color: rgb(240, 238, 238);
+}
+
+.btn-navbar {
+  padding: 0.5rem 1.5rem;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-navbar:hover {
+  background-color: rgba(255, 255, 255, 0.4);
 }

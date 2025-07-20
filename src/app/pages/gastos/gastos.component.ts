@@ -35,6 +35,7 @@ interface TrimestreGasto {
 })
 export class GastosComponent {
 
+  anyoActual: number = new Date().getFullYear();
   gastos?: Gasto[];
   trimestre?: TrimestreGasto[];
 
@@ -76,6 +77,7 @@ export class GastosComponent {
       'Trimestre 3 (Mar-May)': 0,
       'Trimestre 4 (Jun-Ago)': 0,
     };
+    const anyo = new Date().getFullYear();
 
     for (const gasto of this.gastos || []) {
       if (!gasto.fechagasto) continue;
@@ -85,6 +87,7 @@ export class GastosComponent {
         : new Date(gasto.fechagasto);
 
       if (isNaN(fecha.getTime())) continue;
+      if (fecha.getFullYear() != anyo) continue;
 
       const mes = fecha.getMonth() + 1;
 

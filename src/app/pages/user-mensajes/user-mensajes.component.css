@@ -1,0 +1,29 @@
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mensaje {
+  background-color: #f0f8f5;
+}
+
+.mensaje:hover {
+  background-color: #cddbd6;
+}
+
+.transicion-altura {
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  cursor: pointer;
+  max-height: 150px;
+}
+
+.transicion-altura.expanded {
+  max-height: 1000px;
+}

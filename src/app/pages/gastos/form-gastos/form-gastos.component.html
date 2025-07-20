@@ -2,25 +2,29 @@
   <h4 class="modal-title" id="modal-basic-title">Crear gasto</h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
 </div>
-<div class="modal-body">
-  <div class="form-group">
+<form #form="ngForm" id="form-container" [ngClass]="{'was-validated': formSubmitted}" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
 
-    <div class="container mt-1 border border-2 rounded rounded-3">
-        <label for="fecha" class="form-label">Fecha gasto:</label>
-        <input required type="date" class="form-control mb-3" id="fecha" [(ngModel)] = "gasto.fechagasto" placeholder="" (keyup.enter)="guardarGasto()">
+      <div class="container mt-1 border border-2 rounded rounded-3">
+          <label for="fecha" class="form-label">Fecha gasto:</label>
+          <input required type="date" class="form-control mb-3" id="fecha" [(ngModel)] = "gasto.fechagasto" placeholder="" 
+          (keyup.enter)="guardarGasto()" name="fechagasto" min="2000-01-01" max="3000-01-01">
 
-        <label for="descripcion" class="form-label">Descripcion:</label>
-        <input required type="text" class="form-control mb-3" id="descripcion" [(ngModel)] = "gasto.descripcion" placeholder="" (keyup.enter)="guardarGasto()">
+          <label for="descripcion" class="form-label">Descripcion:</label>
+          <input required type="text" class="form-control mb-3" id="descripcion" [(ngModel)] = "gasto.descripcion" placeholder="" 
+          (keyup.enter)="guardarGasto()" name="descripcion">
 
-        <label for="cantidad" class="form-label">Cantidad:</label>
-        <input required type="text" class="form-control mb-3" id="cantidad" [(ngModel)] = "gasto.cantidadgasto" placeholder="" (keyup.enter)="guardarGasto()">
+          <label for="cantidad" class="form-label">Cantidad:</label>
+          <input required type="number" class="form-control mb-3" id="cantidad" [(ngModel)] = "gasto.cantidadgasto" placeholder="" 
+          (keyup.enter)="guardarGasto()" name="cantidad" min="1">
+      </div>
+
     </div>
-
   </div>
-</div>
-<div class="modal-footer">
-  <div class="error-message" [ngClass]="{ 'red-text': errorMensaje }" *ngIf="errorMensaje"
-  style="color: red; position: relative;">{{ errorMensaje }}</div>
-  <button type="button" class="btn btn-outline-dark" (click)="guardarGasto()">Guardar</button>
-</div>
-
+  <div class="modal-footer">
+    <div class="error-message" [ngClass]="{ 'red-text': errorMensaje }" *ngIf="errorMensaje"
+    style="color: red; position: relative;">{{ errorMensaje }}</div>
+    <button type="submit" class="btn btn-outline-dark" (click)="guardarGasto()">Guardar</button>
+  </div>
+</form>

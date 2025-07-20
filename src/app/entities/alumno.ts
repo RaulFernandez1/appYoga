@@ -13,6 +13,7 @@ export interface Alumno {
     poblacion: string,
     provincia: string,
     codigopostal: string,
+    correo: string,
     telefono1: string,
     telefono2: string,
 
@@ -43,6 +44,7 @@ export interface IAlumno {
     poblacion: string,
     provincia: string,
     codigopostal: string,
+    correo: string,
     telefono1: string,
     telefono2: string,
 
@@ -70,6 +72,7 @@ export class AlumnoImpl implements IAlumno {
     poblacion: string = '';
     provincia: string = '';
     codigopostal: string = '';
+    correo: string = '';
     telefono1: string = '';
     telefono2: string = '';
     fechaalta: Date = new Date();
@@ -97,6 +100,7 @@ export class AlumnoImpl implements IAlumno {
             poblacion: alumno.poblacion,
             provincia: alumno.provincia,
             codigopostal: alumno.codigopostal,
+            correo: alumno.correo,
             telefono1: alumno.telefono1,
             telefono2: alumno.telefono2,
 

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Gasto } from '../../../entities/gasto';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GastoService } from '../../../service/gasto.service';
@@ -13,6 +13,8 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './form-gastos.component.css'
 })
 export class FormGastosComponent {
+  @ViewChild('form') formRef!: NgForm;
+  formSubmitted: boolean = false;
 
   gasto: Gasto = {id: 0, fechagasto: null, cantidadgasto: 0, descripcion: ''};
   errorMensaje: string = '';
@@ -20,7 +22,14 @@ export class FormGastosComponent {
   constructor(public modal: NgbActiveModal, private gastoService: GastoService) {}
 
   async guardarGasto(): Promise<void> {
+    this.formSubmitted = true;
     this.limpiarMensajes();
+
+    if (!this.formRef.valid) {
+      this.errorMensaje = 'Por favor, complete todos los campos correctamente.';
+      return;
+    }
+
     if(!this.isGastoValid()) {
         this.errorMensaje = 'Por favor, complete todos los campos';
         return;

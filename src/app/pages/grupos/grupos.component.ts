@@ -7,6 +7,7 @@ import { FormGruposComponent } from './form-grupos/form-grupos.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertaService } from '../../service/alerta.service';
+import { FormMensajeComponent } from '../alumnos/form-mensaje/form-mensaje.component';
 
 @Component({
   selector: 'app-grupos',
@@ -89,5 +90,25 @@ export class GruposComponent {
       }
     });
   }
+
+  enviarMensaje(grupo: Grupo) {
+    let ref = this.modalService.open(FormMensajeComponent);
+    ref.componentInstance.mensaje = {asunto: '', contenido: '', fechaEnvio: new Date(), leido: false, isgrupo: true, 
+      isimportante: false, alumno_id: 0 ,grupo:grupo.id};
+    ref.componentInstance.grupo = grupo;
+    ref.result.then((mensajeAux) => {
+      console.log('Mensaje resultante alumno ==>',mensajeAux);
+      /*
+      this.mensajeService.aniadirMensaje(mensajeAux).subscribe({
+        next: (mensajeRes) => {
+          console.log('Mensaje enviado correctamente ==>',mensajeRes);
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido enviar el mensaje correctamente','danger');
+        }
+      })*/
+    });
+  }
+
 }
 

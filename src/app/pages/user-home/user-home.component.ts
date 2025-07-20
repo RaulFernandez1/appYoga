@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { AuthService } from '../../service/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AlumnoService } from '../../service/alumno.service';
 import { Alumno } from '../../entities/alumno';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,7 @@ interface Mensajes {
 
 @Component({
   selector: 'app-user-home',
-  imports: [FooterComponent, CommonModule, FormsModule, HeaderComponent],
+  imports: [FooterComponent, CommonModule, FormsModule, HeaderComponent, RouterOutlet],
   templateUrl: './user-home.component.html',
   styleUrl: './user-home.component.css'
 })

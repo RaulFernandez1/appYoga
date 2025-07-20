@@ -50,12 +50,12 @@
                         </td>
                         <td>
                             <button class="button btn-editar me-2" (click)="editarAlumno(alumno)"><i class="bi bi-pencil-square"></i></button>
+                            <button class="button btn-editar me-2" (click)="enviarMensaje(alumno)"><i class="bi bi-chat-left-dots"></i></button>
                             @if (alumno.activo) {
                                 <button class="button btn-baja" (click)="bajaAlumno(alumno)"><i class="bi bi-person-slash"></i></button>
                             } @else {
                                 <button class="button btn-alta" (click)="altaAlumno(alumno)"><i class="bi bi-person-plus"></i></button>
                             }
-                            <button class="button" (click)="enviarMensaje(alumno)">Enviar</button>
                         </td>
                     </tr>
                 }

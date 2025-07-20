@@ -11,6 +11,7 @@ import { AlertaComponent } from '../../utils/alerta/alerta.component';
 import { AlertaService } from '../../service/alerta.service';
 import { MensajeService } from '../../service/mensaje.service';
 import { IMensaje } from '../../entities/mensaje';
+import { FormMensajeComponent } from './form-mensaje/form-mensaje.component';
 
 
 export interface Alumnos {
@@ -76,7 +77,7 @@ export class AlumnosComponent {
     let ref = this.modalService.open(FormAlumnoComponent, {size: 'xl'});
     ref.componentInstance.accion = "Añadir";
     ref.componentInstance.alumno = {id: 0, dni: '', nombre: '', apellido1: '', apellido2: '', fechanacimiento: new Date(), profesion: '',
-      direccion: '', poblacion: '', provincia: '', codigopostal: '', telefono1: '', telefono2: '', fechaalta: new Date(), 
+      direccion: '', poblacion: '', provincia: '', codigopostal: '', correo: '', telefono1: '', telefono2: '', fechaalta: new Date(), 
       fechabaja: null, condicion: '', precio: 0, activo: true, bonos: false, clases: false, mensualidad:false, grupo_id: 0
     }
     ref.result.then((alumnoAux) => {
@@ -100,7 +101,7 @@ export class AlumnosComponent {
     ref.componentInstance.alumno = {id: alumno.id, dni: alumno.dni, nombre: alumno.nombre, apellido1: alumno.apellido1, 
       apellido2: alumno.apellido2, fechanacimiento: alumno.fechanacimiento, profesion: alumno.profesion,
       direccion: alumno.direccion, poblacion: alumno.poblacion, provincia: alumno.provincia, codigopostal: alumno.codigopostal, 
-      telefono1: alumno.telefono1, telefono2: alumno.telefono2, fechaalta: alumno.fechaalta, fechabaja: alumno.fechabaja, 
+      correo: alumno.correo, telefono1: alumno.telefono1, telefono2: alumno.telefono2, fechaalta: alumno.fechaalta, fechabaja: alumno.fechabaja, 
       condicion: alumno.condicion, precio: alumno.precio, activo: alumno.activo, bonos: alumno.bonos, clases: alumno.clases, 
       mensualidad: alumno.mensualidad, grupo_id: alumno.grupo_id
     }
@@ -151,22 +152,20 @@ export class AlumnosComponent {
   }
 
   enviarMensaje(alumno: Alumno) {
-    let mensaje: IMensaje = {contenido: 'Prueba1', fechaEnvio: new Date(), alumno_id: alumno.id};
-    this.mensajeService.aniadirMensaje(mensaje).subscribe({
-      next: (mensajeRes) => {
-        console.log("Mensaje enviado correctamente ==>",mensajeRes);
-        this.mensajeService.obtenerTodosMensajesPorIdAlumno(alumno.id).subscribe({
-          next: (mensajeRes) => {
-            console.log("Lista de mensajes ==>",mensajeRes);
-          },
-          error: (e) => {
-            console.log("**Se ha producido un error ==>",e);
-          }
-        });
-      },
-      error: (e) => {
-        console.log("Se ha producido un error ==>",e);
-      }
+    let ref = this.modalService.open(FormMensajeComponent);
+    ref.componentInstance.mensaje = {asunto: '', contenido: '', fechaEnvio: new Date(), leido: false, isgrupo: false, 
+      isimportante: false, alumno_id: alumno.id ,grupo:0};
+    ref.componentInstance.alumno = alumno;
+    ref.result.then((mensajeAux) => {
+      console.log('Mensaje resultante alumno ==>',mensajeAux);
+      this.mensajeService.aniadirMensaje(mensajeAux).subscribe({
+        next: (mensajeRes) => {
+          console.log('Mensaje enviado correctamente ==>',mensajeRes);
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido enviar el mensaje correctamente','danger');
+        }
+      })
     });
 
     

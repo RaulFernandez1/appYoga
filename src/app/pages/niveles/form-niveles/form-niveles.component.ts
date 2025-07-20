@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Nivel, NivelImpl } from '../../../entities/nivel';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NivelService } from '../../../service/nivel.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -13,6 +13,8 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './form-niveles.component.css'
 })
 export class FormNivelesComponent {
+  @ViewChild('form') formRef!: NgForm;
+  formSubmitted: boolean = false;
 
   nivel: Nivel = {id:0, nombrenivel: "", condicion: "", preciomensualidad: 0, preciobonos: 0, precioclases: 0};
   accion?: 'Añadir' | 'Editar';
@@ -21,7 +23,15 @@ export class FormNivelesComponent {
   constructor(public modal: NgbActiveModal, private nivelService: NivelService) {}
 
   async guardarNivel(): Promise<void> {
+    this.formSubmitted = true;
     this.limpiarMensajes();
+
+    if (!this.formRef.valid) {
+      this.errorMensaje = 'Por favor, complete todos los campos correctamente.';
+      return;
+    }
+
+
     if(!this.isNivelValid()) {
         this.errorMensaje = 'Por favor, complete todos los campos';
         return;
