@@ -1,4 +1,4 @@
-<header class="header pt-4 pb-4">
+<header class="header">
     <div class="left-section">
         <!--
         <h2 class="text-light">Sadhana de Yoga</h2>
@@ -16,36 +16,44 @@
         <h2 class="text-light">Sadhana de Yoga</h2>
         <nav class="d-flex gap-3 align-items-center text-white p-2">
             @if (this.rol === 'ADMIN') {
-                <a class="nav-link d-flex align-items-center btn-navbar" routerLink="/home">
+                <a class="nav-link d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'home' }"
+                routerLink="/home" (click)="cambioDePagina('home')">
                     <i class="bi bi-house-door me-2"></i>
                     <span class="d-none d-xl-inline">Home</span>
                 </a>
-                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/alumnos">
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'alumnos' }"
+                routerLink="/home/alumnos" (click)="cambioDePagina('alumnos')">
                     <i class="bi bi-person-badge me-2"></i>
                     <span class="d-none d-xl-inline">Alumnos</span>
                 </a>
-                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/grupos">
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'grupos' }"
+                routerLink="/home/grupos" (click)="cambioDePagina('grupos')">
                     <i class="bi bi-people me-2"></i>
                     <span class="d-none d-xl-inline">Grupos</span>
                 </a>
-                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/niveles">
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'niveles' }"
+                routerLink="/home/niveles" (click)="cambioDePagina('niveles')">
                     <i class="bi bi-graph-up-arrow me-2"></i>
                     <span class="d-none d-xl-inline">Niveles</span>
                 </a>
-                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/gastos">
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'gastos' }"
+                routerLink="/home/gastos" (click)="cambioDePagina('gastos')">
                     <i class="bi bi-currency-dollar me-2"></i>
                     <span class="d-none d-xl-inline">Gastos</span>
                 </a>
-                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/home/recibos">
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'recibos' }"
+                routerLink="/home/recibos" (click)="cambioDePagina('recibos')">
                     <i class="bi bi-receipt-cutoff me-2"></i>
                     <span class="d-none d-xl-inline">Recibos</span>
                 </a>
             } @else if (this.rol === 'USER') {
-                <a class="nav-link text-white d-flex align-items-center btn-navbar" routerLink="/userHome">
-                    <i class="bi bi-person me-2"></i>
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'homeUser' }"
+                routerLink="/userHome" (click)="cambioDePagina('homeUser')">
+                    <i class="bi bi-person me-2 border border-warning"></i>
                     <span class="d-none d-xl-inline">Perfil</span>
                 </a>
-                <a class="nav-link text-white d-flex align-items-center btn-navbar position-relative" routerLink="/userHome/mensajes">
+                <a class="nav-link text-white d-flex align-items-center btn-navbar" [ngClass]="{ 'active-nav' : paginaActual === 'mensajes' }" 
+                routerLink="/userHome/mensajes" (click)="cambioDePagina('mensajes')">
                     <i class="bi bi-chat-left-text me-2"></i>
                     <span class="d-none d-xl-inline">Mensajes</span>
                 </a>
@@ -67,6 +75,5 @@
                 <li><button class="dropdown-item btn-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i>  Cerrar sesión</button></li>
             </ul>
         </div>
-        <!--<button class="logout-button" (click)="logout()"><i class="bi bi-box-arrow-right"></i>  Cerrar sesión</button>-->
     </div>
 </header>

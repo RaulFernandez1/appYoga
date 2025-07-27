@@ -1,0 +1,93 @@
+<div class="modal-header">
+  <h5 class="modal-title">Previsualización del Recibo</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body row">
+  <!-- Columna izquierda: opciones -->
+  <div class="col-md-4 d-flex flex-column justify-content-between">
+    <div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="enviarPorCorreo" id="correoCheck" name="correo" switch>
+        <label class="form-check-label" for="correoCheck">
+          Enviar por correo al alumno
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-outline-secondary mt-4" (click)="onPrint()">
+      <i class="bi bi-printer me-2"></i>Imprimir Recibo
+    </button>
+  </div>
+
+  <!-- Columna derecha: previsualización -->
+  <div class="col-md-8">
+    <div class="card shadow-sm p-4">
+      
+        <div id="recibo-content" style="background-color:#e8e8e8; border-left:4px solid #989898; padding:18px 16px; color:#333333; font-size:14px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr valign="top">
+                    <td width="40%" style="vertical-align:middle;" align="center">
+                        <img src="../assets/soloLogo.png" alt="Logo" height="100" width="100"
+                            style="background:white; border-radius:50%; display:block;"
+                        >
+                        <div style="font-size:10px; color:#6c757d; padding-top:8px;">
+                            SADHANA DE YOGA <br>
+                            Enseñanza según el magisterio de B.K.S. Iyengar
+                        </div>
+                    </td>
+                    <td width="30%">
+
+                    </td>
+                    <td width="30%">
+                        <div style="text-align:center; background: grey; padding:5px 0; font-weight:bold;font-size:20px;">
+                            Recibo
+                        </div>
+                        <table width="100%" style="margin-top:30px;">
+                            <tr>
+                                <td><b>Fecha: </b></td>
+                                <td align="right"><span>{{recibo.fecharecibo | date: 'dd/MM/yyyy'}}</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Importe: </b></td>
+                                <td align="right"><span>{{recibo.cantidad}}</span> €</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:18px;">
+                <tr>
+                    <td width="20%" align="center">
+                        <b>Alumno: </b>
+                    </td>
+                    <td>
+                        <span style="margin-right:6px;">{{alumno.apellido1}}</span>
+                        <span>{{alumno.apellido2}}</span>,
+                        <span style="margin-left:6px;">{{alumno.nombre}}</span>
+                    </td>
+                    <td width="30%" align="center">
+                        <b>Mensualidad</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="center" style="padding-top: 20px;">
+                        <b>Nivel: </b>
+                        <span style="margin-left:10px;">{{nivel}}</span>
+                    </td>
+                </tr>
+            </table>
+            <div style="border: 1px solid black; margin-top: 18px; margin-bottom:8px;"></div>
+            <table width="100%" cellpadding="0" cellspacing="0" style="font-weight: bold;">
+                <tr>
+                    <td align="center">
+                        Paseo de Sancha, 6. Puerta 28. 29016 - Málaga. Telf./Fax: 952 22 03 64
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+  </div>
+</div>
+

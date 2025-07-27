@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertaService } from '../../service/alerta.service';
 import { FormMensajeComponent } from '../alumnos/form-mensaje/form-mensaje.component';
+import { Alumno } from '../../entities/alumno';
+import { AlumnoService } from '../../service/alumno.service';
 
 @Component({
   selector: 'app-grupos',
@@ -21,12 +23,24 @@ export class GruposComponent {
   grupos?: Grupo[];
   gruposRes?: Grupo[];
 
-  nombreGrupo: string = '';
+  alumnos?: Alumno[];
 
-  constructor(private modalService: NgbModal, private grupoService: GrupoService, private alertaService: AlertaService) {}
+  nombreGrupo: string = '';
+  limiteGrupo: number = 15;
+
+  constructor(private modalService: NgbModal, private grupoService: GrupoService, private alumnoService: AlumnoService,
+    private alertaService: AlertaService) {}
 
   ngOnInit(): void {
     this.actualizarGrupos();
+    this.alumnoService.obtenerTodosAlumnos().subscribe({
+      next: (alumnoRes) => {
+        this.alumnos = alumnoRes;
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido encontrar el listado de alumnos','warning');
+      }
+    })
   }
 
   actualizarGrupos() {
@@ -92,22 +106,35 @@ export class GruposComponent {
   }
 
   enviarMensaje(grupo: Grupo) {
-    let ref = this.modalService.open(FormMensajeComponent);
-    ref.componentInstance.mensaje = {asunto: '', contenido: '', fechaEnvio: new Date(), leido: false, isgrupo: true, 
-      isimportante: false, alumno_id: 0 ,grupo:grupo.id};
-    ref.componentInstance.grupo = grupo;
-    ref.result.then((mensajeAux) => {
-      console.log('Mensaje resultante alumno ==>',mensajeAux);
-      /*
-      this.mensajeService.aniadirMensaje(mensajeAux).subscribe({
-        next: (mensajeRes) => {
-          console.log('Mensaje enviado correctamente ==>',mensajeRes);
-        },
-        error: (e) => {
-          this.alertaService.mostrar('No se ha podido enviar el mensaje correctamente','danger');
-        }
-      })*/
-    });
+    const alumnosGrupo = this.alumnos?.filter(a => a.grupo_id === grupo.id) || [];
+    if(alumnosGrupo?.length != 0) {
+      let ref = this.modalService.open(FormMensajeComponent);
+      ref.componentInstance.mensaje = {asunto: '', contenido: '', fechaEnvio: new Date(), leido: false, isgrupo: true, 
+        isimportante: false, alumno_id: 0 ,grupo:grupo.id};
+      ref.componentInstance.grupo = grupo;
+      ref.result.then((mensajeAux) => {
+        console.log('Mensaje resultante alumno ==>',mensajeAux);
+        alumnosGrupo.forEach(alumno => {
+          
+        });
+        /*
+        this.mensajeService.aniadirMensaje(mensajeAux).subscribe({
+          next: (mensajeRes) => {
+            console.log('Mensaje enviado correctamente ==>',mensajeRes);
+          },
+          error: (e) => {
+            this.alertaService.mostrar('No se ha podido enviar el mensaje correctamente','danger');
+          }
+        })*/
+      });
+    } else {
+      this.alertaService.mostrar('No hay ningun alumno inscrito a este grupo','warning');
+    }
+  }
+
+  getAlumnosInGrupo(grupo: Grupo): number {
+    const alumnosGrupo = this.alumnos?.filter(a => a.grupo_id === grupo.id).length || 0;
+    return alumnosGrupo;
   }
 
 }

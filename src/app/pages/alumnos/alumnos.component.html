@@ -29,33 +29,73 @@
             <caption class="titulo-tabla"><h4>Lista de grupos</h4></caption>
             <thead class="table-header">
                 <tr>
-                    <td>DNI</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    <td class="text-center">Fecha de Alta</td>
+                    <td>Alumno</td>
+                    <td>Contacto</td>
+                    <td>Grupo</td>
                     <td class="text-center">Estado</td>
+                    <td class="text-center">Fecha de Alta</td>
                     <td>Acciones</td>
                 </tr>
             </thead>
             <tbody class="table-body">
                 @for (alumno of alumnosFiltro; track $index) {
                     <tr>
-                        <td>{{ alumno.dni }}</td>
-                        <td>{{ alumno.apellido1 + ' ' + alumno.apellido2 + ', ' + alumno.nombre }}</td>
-                        <td>{{ alumno.telefono1 }}</td>
-                        <td class="text-center">{{ alumno.fechaalta | date:'dd/MM/yyyy'}}</td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 text-center d-flex align-items-center justify-content-center" style="width: auto;">
+                                    <div class="rounded-circle bg-success-subtle text-success fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        {{alumno.nombre.charAt(0)}}
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <span class="fw-bold">{{alumno.nombre + ' ' + alumno.apellido1 + ' ' + alumno.apellido2}}</span><br>
+                                    <span class="text-muted small">{{alumno.dni}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-muted">
+                            <span><i class="bi bi-envelope me-2"></i>{{alumno.correo}}</span><br>
+                            <span><i class="bi bi-telephone me-1"></i>+34 {{alumno.telefono1}}</span>
+                        </td>
+                        <td class="text-muted">{{obtenerNombreGrupo(alumno)}}</td>
                         <td class="text-center">
                             @if (alumno.activo) {<span class="badge bg-success-subtle text-success badge-pill">Activo</span>}
                             @else {<span class="badge bg-danger-subtle text-danger badge-pill">Baja</span>}
                         </td>
-                        <td>
-                            <button class="button btn-editar me-2" (click)="editarAlumno(alumno)"><i class="bi bi-pencil-square"></i></button>
-                            <button class="button btn-editar me-2" (click)="enviarMensaje(alumno)"><i class="bi bi-chat-left-dots"></i></button>
-                            @if (alumno.activo) {
-                                <button class="button btn-baja" (click)="bajaAlumno(alumno)"><i class="bi bi-person-slash"></i></button>
-                            } @else {
-                                <button class="button btn-alta" (click)="altaAlumno(alumno)"><i class="bi bi-person-plus"></i></button>
-                            }
+                        <td class="text-center text-muted">{{ alumno.fechaalta | date:'dd/MM/yyyy'}}</td>
+                        <td style="position: relative;">
+                            <div class="dropdown">
+                                <button class="btn-despliegue fw-bold" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-ligth ms-1">
+                                    <li>
+                                        <button class="dropdown-item button btn-editar" (click)="editarAlumno(alumno)">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Editar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item button btn-editar" (click)="enviarMensaje(alumno)">
+                                            <i class="bi bi-chat-left-dots"></i>
+                                            Enviar mensaje
+                                        </button>
+                                    </li>
+                                    <li>
+                                        @if (alumno.activo) {
+                                            <button class="dropdown-item button btn-baja" (click)="bajaAlumno(alumno)">
+                                                <i class="bi bi-person-slash"></i>
+                                                Dar de baja
+                                            </button>
+                                        } @else {
+                                            <button class="dropdown-item button btn-alta" (click)="altaAlumno(alumno)">
+                                                <i class="bi bi-person-plus"></i>
+                                                Dar de alta
+                                            </button>
+                                        }
+                                    </li> 
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 }

@@ -4,7 +4,7 @@
         <button class="btn btn-secondary" (click)="nuevoRecibo()">+ Añadir Recibos</button>
     </div>
 
-    <div class="d-flex gap-4 justify-content-center mb-3">
+    <div class="table-responsive d-flex gap-4 justify-content-center mb-3">
         <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
             <div class="flex-shrink-0">
                 <i class="bi bi-receipt fs-3"></i>
@@ -49,9 +49,9 @@
             <tbody class="table-body">
                 @for (recibo of recibos; track $index) {
                     <tr>
-                        <td>{{recibo.numerorecibo}}</td>
-                        <td>{{recibo.fecharecibo | date:'dd/MM/yyyy' }}</td>
-                        <td>{{recibo.cantidad}} €</td>
+                        <td class="text-muted">{{recibo.numerorecibo}}</td>
+                        <td class="text-muted">{{recibo.fecharecibo | date:'dd/MM/yyyy' }}</td>
+                        <td class="text-muted">{{recibo.cantidad}} €</td>
                         <td>
                             @if (recibo.pagado) {
                                 <span class="badge bg-success-subtle text-success badge-pill">Pagado</span>

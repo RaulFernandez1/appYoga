@@ -15,7 +15,7 @@ import { AlertaService } from '../../service/alerta.service';
 })
 export class LoginComponent {
 
-  usuario: User = {username: 'usuario', password: 'usuario'};
+  usuario: User = {username: 'admin', password: 'admin'};
   nombre: string = '';
   @ViewChild('alerta') alertaComponent!: AlertaComponent;
 
@@ -33,7 +33,6 @@ export class LoginComponent {
           localStorage.setItem('token',response.token);
           localStorage.setItem('alumnoid',response.alumno_id);
           localStorage.setItem('rol',(response.alumno_id === "0")? "ADMIN" : "USER");
-          console.log(localStorage.getItem('token'),localStorage.getItem('alumnoid'),localStorage.getItem('rol'));
           this.router.navigateByUrl((localStorage.getItem('rol') === 'ADMIN')?'/home':'/userHome');
         },
         error: (e) => {

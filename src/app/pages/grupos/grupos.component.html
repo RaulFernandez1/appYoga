@@ -19,20 +19,57 @@
                     <td>Nombre grupo</td>
                     <td>Horario</td>
                     <td>Nivel</td>
+                    <td class="text-center">Alumnos</td>
+                    <td class="text-center">Estado</td>
                     <td>Acciones</td>
                 </tr>
             </thead>
             <tbody class="table-body">
                 @for (grupo of gruposRes; track $index) {
                     <tr>
-                        <td>{{grupo.nombregrupo}}</td>
-                        <td>{{grupo.horario}}</td>
-                        <td>{{grupo.nivel}}</td>
-                        <td>
-                            <div>
-                                <button type="button" class="button btn-editar me-2" (click)="editarGrupo(grupo)"><i class="bi bi-pencil-square"></i></button>
-                                <button class="button btn-editar me-2" (click)="enviarMensaje(grupo)"><i class="bi bi-chat-left-dots"></i></button>
-                                <button type="button" class="button btn-eliminar" (click)="eliminarGrupo(grupo)"><i class="bi bi-trash3"></i></button>
+                        <td class="text-muted">{{grupo.nombregrupo}}</td>
+                        <td class="text-muted">{{grupo.horario}}</td>
+                        <td class="text-muted">{{grupo.nivel}}</td>
+                        <td style="width: 100px;">
+                            <div class="text-center">
+                                <b>{{getAlumnosInGrupo(grupo)}}</b>
+                                <span class="text-muted">/{{limiteGrupo}}</span>
+                            </div>
+                            <div class="progress mb-3 animaBar" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar" [style.width.%]="(this.getAlumnosInGrupo(grupo) / this.limiteGrupo)*100"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            @if (getAlumnosInGrupo(grupo) === limiteGrupo) {
+                                <span class="badge bg-warning-subtle text-danger badge-pill">Completo</span>
+                            } @else {
+                                <span class="badge bg-success-subtle text-success badge-pill">Activo</span>
+                            }
+                        </td>
+                        <td style="position: relative;">
+                            <div class="dropdown">
+                                <button class="btn-despliegue fw-bold" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-ligth ms-1">
+                                    <li>
+                                        <button class="dropdown-item button btn-editar me-2" (click)="editarGrupo(grupo)">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Editar
+                                        </button>
+                                    <li>
+                                        <button class="dropdown-item button btn-editar me-2" (click)="enviarMensaje(grupo)">
+                                            <i class="bi bi-chat-left-dots"></i>
+                                            Enviar mensaje
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item button btn-eliminar" (click)="eliminarGrupo(grupo)">
+                                            <i class="bi bi-trash3"></i>
+                                            Eliminar
+                                        </button>
+                                    </li> 
+                                </ul>
                             </div>
                         </td>
                     </tr>

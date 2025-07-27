@@ -8,6 +8,13 @@ import html2canvas from 'html2canvas';
 import { CommonModule } from '@angular/common';
 import { PrintRecibosComponent } from './print-recibos/print-recibos.component';
 import { AlertaService } from '../../service/alerta.service';
+import { PreviewRecibosComponent } from './preview-recibos/preview-recibos.component';
+import { AlumnoService } from '../../service/alumno.service';
+import { Alumno } from '../../entities/alumno';
+import { GrupoService } from '../../service/grupo.service';
+import { concatMap, forkJoin, map, switchMap, tap } from 'rxjs';
+import { EmailService } from '../../service/email.service';
+import { EmailReciboRequest } from '../../entities/email';
 
 @Component({
   selector: 'app-recibos',
@@ -25,7 +32,8 @@ export class RecibosComponent {
   reciboSeleccionado: Recibo = {id: 0, alumno: 0, cantidad: 0, fecharecibo: new Date(), numerorecibo: 'null', pagado: false};
   @ViewChild(PrintRecibosComponent) printReciboComponent!: PrintRecibosComponent;
 
-  constructor(private modalService: NgbModal, private reciboService: ReciboService, private cdr: ChangeDetectorRef,
+  constructor(private modalService: NgbModal, private reciboService: ReciboService, private alumnoService: AlumnoService, 
+    private grupoService: GrupoService, private emailService: EmailService, private cdr: ChangeDetectorRef, 
     private alertaService: AlertaService
   ) {}
 
@@ -86,8 +94,53 @@ export class RecibosComponent {
 
   imprimirRecibo(recibo: Recibo) {
     this.reciboSeleccionado = recibo;
+    let alumnoRes: Alumno;
     
-    setTimeout(() => {
+    this.alumnoService.obtenerAlumnoPorId(recibo.alumno).pipe(
+      tap(alumno => alumnoRes = alumno),
+      concatMap(alumno => this.grupoService.obtenerGrupoId(alumno.grupo_id))
+    ).subscribe({
+      next: (grupoRes) => {
+        let ref = this.modalService.open(PreviewRecibosComponent, {size: 'xl', centered: true});
+        ref.componentInstance.alumno = {
+          nombre: alumnoRes.nombre,
+          apellido1: alumnoRes.apellido1,
+          apellido2: alumnoRes.apellido2,
+          correo: alumnoRes.correo
+        };
+        ref.componentInstance.nivel = grupoRes.nivel;
+        ref.componentInstance.recibo = recibo;
+
+        ref.result.then(({emailReciboRes, email}) => {
+          console.log('Recibo final es este: ', emailReciboRes);
+
+          const emailRecibo: EmailReciboRequest = emailReciboRes;
+          if(!emailRecibo.to) {
+            this.alertaService.mostrar('El email del alumno no esta especificado','danger');
+          } else if(email) {
+            this.emailService.enviarCorreoRecibo(emailReciboRes).subscribe({
+              next: (res) => {
+                this.alertaService.mostrar('Correo enviado exitosamente','success');
+              },
+              error: (e) => {
+                this.alertaService.mostrar('No se ha podido enviar correctamente el correo','danger');
+              }
+            });
+          }
+        });
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido realizar la operación correctamente','danger');
+      }
+    })
+  }
+
+}
+
+ /*
+  IMPRIMIR RECIBOS
+
+  setTimeout(() => {
       const DATA = this.printReciboComponent?.contentRef?.nativeElement;
 
       if (!DATA) {
@@ -113,6 +166,5 @@ export class RecibosComponent {
           console.error('Error al generar el PDF:', err);
         });
     }, 300); // Ajusta el delay si es necesario
-  }
-
-}
+  
+  */

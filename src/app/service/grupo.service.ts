@@ -31,4 +31,8 @@ export class GrupoService {
     return this.httpClient.get<Grupo>(BACKEND_URI + '/grupos/buscar?nombregrupo=' + nombreGrupo);
   }
 
+  obtenerGrupoId(id: number) : Observable<Grupo> {
+    return this.httpClient.get<Grupo>(BACKEND_URI + '/grupos/buscar/' + id);
+  }
+
 }

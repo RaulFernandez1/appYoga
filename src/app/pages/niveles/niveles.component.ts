@@ -6,6 +6,8 @@ import { FormNivelesComponent } from './form-niveles/form-niveles.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AlertaService } from '../../service/alerta.service';
+import { Grupo } from '../../entities/grupo';
+import { GrupoService } from '../../service/grupo.service';
 
 @Component({
   selector: 'app-niveles',
@@ -16,11 +18,13 @@ import { AlertaService } from '../../service/alerta.service';
 export class NivelesComponent {
 
   niveles?: Nivel[];
+  grupos?: Grupo[];
 
   nivelesRes?: Nivel[];
   nombreNivel: string = '';
 
-  constructor(private modalService: NgbModal, private nivelService: NivelService, private alertaService: AlertaService) {}
+  constructor(private modalService: NgbModal, private nivelService: NivelService, private grupoService: GrupoService,
+    private alertaService: AlertaService) {}
 
   ngOnInit(): void {
     this.actualizarNiveles();
@@ -32,6 +36,10 @@ export class NivelesComponent {
       this.nivelesRes = listaNiveles;
       console.log('Niveles recibidos',listaNiveles)
     });
+    this.grupoService.obtenerTodosGrupos().subscribe((listaGrupos) => {
+      this.grupos = listaGrupos;
+      console.log('Grupos obtenidos',listaGrupos);
+    })
   }
 
   buscar() {
@@ -92,6 +100,11 @@ export class NivelesComponent {
         this.alertaService.mostrar('No se ha podido eliminar el nivel con exito','danger');
       }
     });
+  }
+
+  getGrupoPorNivel(nivel: Nivel) {
+    const grupos = this.grupos?.reduce((acc, g) => g.nivel === nivel.nombrenivel? acc + 1 : acc,0);
+    return grupos;
   }
 
 }

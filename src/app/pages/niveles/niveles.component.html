@@ -16,11 +16,10 @@
             <caption class="titulo-tabla"><h4>Lista de niveles</h4></caption>
             <thead class="table-header">
                 <tr>
-                    <td>Nombre nivel</td>
-                    <td>Condicion</td>
-                    <td class="text-center">Tarifa Mensualidad</td>
-                    <td class="text-center">Tarifa Bonos</td>
-                    <td class="text-center">Tarifa Clases</td>
+                    <td>Nivel</td>
+                    <td>Dificultad</td>
+                    <td class="text-center">Grupos</td>
+                    <td class="text-center">Tarifa</td>
                     <td>Acciones</td>
                 </tr>
             </thead>
@@ -29,13 +28,35 @@
                     <tr>
                         <td>{{nivel.nombrenivel}}</td>
                         <td>{{nivel.condicion}}</td>
-                        <td class="text-center">{{nivel.preciomensualidad}} €</td>
-                        <td class="text-center">{{nivel.preciobonos}} €</td>
-                        <td class="text-center">{{nivel.precioclases}} €</td>
-                        <td>
-                            <div class="">
-                                <button type="button" class="button btn-editar me-2" (click)="editarNivel(nivel)"><i class="bi bi-pencil-square"></i></button>
-                                <button type="button" class="button btn-eliminar" (click)="eliminarNivel(nivel)"><i class="bi bi-trash3"></i></button>
+                        <td class="text-center"><span class="fw-bold">{{getGrupoPorNivel(nivel)}}</span></td>
+                        <td class="text-center" style="width: 135px;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="badge-mes">Mensual</span>
+                                <span class="fw-bolder fs-5 text-success">{{nivel.preciomensualidad}} €</span>
+                            </div>
+                            <div class="mt-1" style="font-size: smaller;">
+                                <span class="text-muted me-1">Bonos: </span><span class="text-success fw-bold">{{nivel.preciobonos}}€/clase</span><br>
+                                <span class="text-muted me-1">Clases: </span><span class="text-success fw-bold">{{nivel.precioclases}}€/clase</span>
+                            </div>
+                        </td>
+                        <td style="position: relative;">
+                            <div class="dropdown">
+                                <button class="btn-despliegue fw-bold" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-ligth ms-1">
+                                    <li>
+                                        <button class="dropdown-item button btn-editar me-2" (click)="editarNivel(nivel)">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Editar
+                                        </button>
+                                    <li>
+                                        <button class="dropdown-item button btn-eliminar" (click)="eliminarNivel(nivel)">
+                                            <i class="bi bi-trash3"></i>
+                                            Eliminar
+                                        </button>
+                                    </li> 
+                                </ul>
                             </div>
                         </td>
                     </tr>

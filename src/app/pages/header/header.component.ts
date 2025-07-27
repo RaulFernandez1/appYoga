@@ -4,10 +4,11 @@ import { AuthService } from '../../service/auth.service';
 import { AlumnoService } from '../../service/alumno.service';
 import { AlertaService } from '../../service/alerta.service';
 import { Alumno } from '../../entities/alumno';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -15,6 +16,8 @@ export class HeaderComponent {
 
   rol?: string;
   perfil = {letra: '', nombre: '', correo: ''};
+
+  paginaActual: string = 'home';
 
   constructor(private router: Router, private authService: AuthService, private alumnoService: AlumnoService, private alertaService: AlertaService) {}
 
@@ -29,6 +32,7 @@ export class HeaderComponent {
           this.perfil.letra = alumno.nombre[0];
           this.perfil.nombre = alumno.nombre;
           this.perfil.correo = alumno.correo;
+          this.paginaActual = 'homeUser';
         },
         error: (e) => {
           this.alertaService.mostrar('No se ha podido determinar tu usuario','danger');
@@ -37,6 +41,7 @@ export class HeaderComponent {
       });
     } else if(this.rol === 'ADMIN') {
       this.perfil = {letra: 'A', nombre: 'Admin', correo: 'admin@sadhanayoga.com'};
+      this.paginaActual = 'home';
     } else {
       this.logout();
     }
@@ -45,6 +50,10 @@ export class HeaderComponent {
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('');
+  }
+
+  cambioDePagina(pagina: 'home' | 'alumnos' | 'grupos' | 'niveles' | 'gastos' | 'recibos' | 'homeUser' | 'mensajes' = 'home') {
+    this.paginaActual = pagina;
   }
 
 }

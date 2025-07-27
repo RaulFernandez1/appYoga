@@ -1,0 +1,183 @@
+<style>
+  /* Reset some default styles */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+  }
+
+  .email-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border: 1px solid #e1e4e8;
+    padding: 30px 40px;
+    box-sizing: border-box;
+  }
+
+  .header {
+    background-color: rgb(21, 96, 50);
+    padding: 20px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-left: 1rem;
+
+  }
+
+  .header h1 {
+    color: white;
+  }
+
+  .header img {
+    max-height: 20px;
+    max-width: 20px;
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #000;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .message-preview {
+    border: 1px solid #e1e4e8;
+    padding: 15px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    
+    font-style: italic;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .message-preview .logo {
+    max-height: 10px;
+    max-width: 10px;
+    min-height: 10px;
+    min-width: 10px;
+    background-color: rgba(6, 82, 6, 1);
+    padding: 10px;
+    border-radius: 50%;
+
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bolder;
+    color: white;
+    opacity: 0.7;
+  }
+
+  .message-preview .content {
+    flex: 1 1 auto;
+    opacity: 0.7;
+  }
+
+  .message-preview .mensaje {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    font-size: small;
+    width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .message-preview .hour {
+    margin-left: auto;
+    font-size: small;
+    opacity: 0.7;
+
+    max-width: 60px;
+    min-width: 60px;
+
+    white-space: nowrap;
+    overflow: break-word;
+    word-break: break-word;
+  }
+
+  .message-preview .badge {
+    font-size: x-small;
+    width: fit-content;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .footer {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin-top: 40px;
+    line-height: 1.4;
+  }
+
+  .footer a {
+    color: #999;
+    text-decoration: underline;
+    margin: 0 5px;
+  }
+
+  .footer-links {
+    margin-top: 10px;
+  }
+
+  .border {
+    border: 1px solid black;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+</style>
+
+<div class="header">
+  <img src="assets/logo.png" alt="wonderblum logo" />
+  <h1>Sadhana de Yoga</h1>
+</div>
+
+<div class="email-container">
+  <h1>Nuevo mensaje</h1>
+  <p><strong>{{ nombre }}</strong>, Has recibido un nuevo mensaje.</p>
+  <div class="message-preview">
+    <div class="logo">{{ letra }}</div>
+    <div class="content">
+      <b>{{ perfil }}</b><span> {{ estrella }}</span>
+      <div class="mensaje border">
+        <span class="bold">{{ titulo }}</span>
+        <span
+        >{{ contenidooooooooooooooooooooooooooooooooooooooooooooooooooo }}</span>
+      </div>
+      <div class="badge" style="background-color: rgb(16, 16, 252);">Personal</div>
+      <div class="badge" style="background-color: gray;">Grupo</div>
+    </div>
+    <div class="hour">{{ fecha }} <br> {{ hora }}</div>
+  </div>
+  <p><span class="bold">Por favor, no conteste a este correo.</span> Si tiene alguna pregunta, contacte con nosotros.</p>
+  <p><span class="bold">Preguntas?</span> Contacta <a href="mailto:sadhanadeyoga&#64;gmail.com">sadhanadeyoga&#64;gmail.com</a>.</p>
+</div>
+
+<div class="footer">
+  <p>© 2025 Sadhana de Yoga. Todos los derechos reservados.</p>
+  <p>Eco-Friendly Studio</p>
+</div>

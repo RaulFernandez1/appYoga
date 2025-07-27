@@ -4,19 +4,63 @@
         <button class="btn btn-secondary" (click)="nuevoGasto()">+ Añadir Gasto</button>
     </div>
 
-    <div class="card p-4 mb-4 shadow-sm">
-        <h5><i class="bi bi-clock-history me-2"></i>Gastos por Trimestres {{anyoActual}}</h5>
-        <div class="mt-3">
-            @for (tramo of trimestre; track $index) {
-            <div class="d-flex justify-content-between mb-2">
-                <span class="badge-custom">{{ tramo.nombre }}</span>
-                <strong>{{ tramo.total | currency:'EUR' }} ({{ tramo.porcentaje | number:'1.1-1' }}%)</strong>
+    <div class="table-responsive card p-4 mb-4 shadow-sm">
+        <div class="d-flex align-items-start justify-content-between">
+            <h5 style="padding: 8px 0px;"
+            ><i class="bi bi-clock-history me-2"></i>Gastos por {{modoGrid ? 'Trimestre' : 'Mes'}} {{anyoActual}}</h5>
+            <div class="switch" role="group">
+                <div class="slider" [ngClass]="modoGrid ? '' : 'right'"></div>
+                <button
+                    type="button"
+                    class="btn-switch"
+                    [ngClass]="modoGrid ? 'active' : ''"
+                    (click)="modoGrid = !modoGrid">
+                    <i class="bi bi-graph-up"></i> Trimestral
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-switch"
+                    [ngClass]="modoGrid ? '' : 'active'"
+                    (click)="modoGrid = !modoGrid">
+                    <i class="bi bi-calendar3"></i> Mensual
+                </button>
             </div>
-            <div class="progress mb-3 animaBar" style="height: 10px;">
-                <div class="progress-bar {{ tramo.color }} animaBar" role="progressbar" [style.width.%]="tramo.porcentaje"></div>
-            </div>
-            }
         </div>
+        @if (modoGrid) {
+            <div class="mt-3">
+                @for (tramo of trimestre; track $index) {
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="badge-custom">{{ tramo.nombre }}</span>
+                    <strong>{{ tramo.total | currency:'EUR' }} ({{ tramo.porcentaje | number:'1.1-1' }}%)</strong>
+                </div>
+                <div class="progress mb-3 animaBar" style="height: 10px;">
+                    <div class="progress-bar {{ tramo.color }}" role="progressbar" [style.width.%]="tramo.porcentaje"></div>
+                </div>
+                }
+            </div>
+        } @else {
+            <div class="mt-3">
+                @for (mes of getmesesPaginados(); track $index) {
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="badge-custom">{{ mes.nombre }}</span>
+                        <strong>{{ mes.total | currency:'EUR' }} ({{ mes.porcentaje | number:'1.1-1' }}%)</strong>
+                    </div>
+                    <div class="progress mb-3 animaBar" style="height: 10px;">
+                        <div class="progress-bar {{ mes.color }}" role="progressbar" [style.width.%]="mes.porcentaje"></div>
+                    </div>
+                }
+                <div style="display: flex; align-items: center; justify-content: center; padding-top: 20px;">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" (click)="cambiarPagina(paginaActual-1)">Previous</a></li>
+                        <li class="page-item"><a class="page-link" (click)="cambiarPagina(1)">1</a></li>
+                        <li class="page-item"><a class="page-link" (click)="cambiarPagina(2)">2</a></li>
+                        <li class="page-item"><a class="page-link" (click)="cambiarPagina(3)">3</a></li>
+                        <li class="page-item"><a class="page-link" (click)="cambiarPagina(paginaActual+1)">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        }
     </div>
 
     <div class="table-responsive border rounded border-secundary p-4 shadow-sm">
@@ -42,6 +86,6 @@
     </div>
 </div>
 
-<div @progress class="d-flex animaBar p-4 border border-dark">
+<div>
     Contenido
 </div>

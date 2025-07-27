@@ -11,6 +11,7 @@ import { apiKey } from '../../config/config';
 import { AsistenteService } from '../../service/asistente.service';
 import { HeaderComponent } from '../header/header.component';
 import { AlertaService } from '../../service/alerta.service';
+import { EmailMensajeComponent } from '../../utils/email-mensaje/email-mensaje.component';
 
 interface Mensajes {
   texto: string,
@@ -20,7 +21,7 @@ interface Mensajes {
 
 @Component({
   selector: 'app-user-home',
-  imports: [FooterComponent, CommonModule, FormsModule, HeaderComponent, RouterOutlet],
+  imports: [FooterComponent, CommonModule, FormsModule, HeaderComponent, RouterOutlet, EmailMensajeComponent],
   templateUrl: './user-home.component.html',
   styleUrl: './user-home.component.css'
 })

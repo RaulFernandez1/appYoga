@@ -18,7 +18,25 @@ html, body {
   max-width: 90%;
 }
 
+/** Estilado de progressBar */
+.animaBar {
+  animation: progressBar 1s ease forwards;
+}
+
+@keyframes progressBar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 /** Estilado de tablas */
+.table-responsive {
+  animation: fadeInTabla 0.7s ease forwards;
+}
+
 .table-header td  {
   color: grey;
   font-weight: bold;
@@ -34,6 +52,29 @@ html, body {
 
 .table td:last-child {
   text-align: center;
+}
+
+@keyframes fadeInTabla {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  } 
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/** Badget */
+
+.badge-mes {
+  background-color: rgba(79, 79, 246, 0.232);
+  border-radius: 12px;
+  padding: 2px 8px;
+
+  font-size: smaller;
+  font-weight: bold;
+  color: rgba(38, 38, 247, 0.716);
 }
 
 /** Estilado de botones */
@@ -134,9 +175,42 @@ html, body {
 .btn-navbar {
   padding: 0.5rem 1.5rem;
   border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: transparent;
 }
 
 .btn-navbar:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.active-nav {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.active-nav:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
+
+.btn-despliegue {
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+}
+
+.btn-despliegue:hover {
+  background-color: #d0d0d0;
+}
+
+/** Dropdown menu */
+.dropdown-menu {
+  border-radius: 10px;
+}
+
+.dropdown-item {
+  border: none;
+  background-color: transparent;
+  width: 150px;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+

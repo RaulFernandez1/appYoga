@@ -10,13 +10,12 @@ import { CommonModule } from '@angular/common';
 import { AlertaComponent } from '../../utils/alerta/alerta.component';
 import { AlertaService } from '../../service/alerta.service';
 import { MensajeService } from '../../service/mensaje.service';
-import { IMensaje } from '../../entities/mensaje';
 import { FormMensajeComponent } from './form-mensaje/form-mensaje.component';
+import { EmailService } from '../../service/email.service';
+import { Mensaje } from '../../entities/mensaje';
+import { EmailMensajeRequest, EmailRequest } from '../../entities/email';
+import { perfilAdmin } from '../../config/config';
 
-
-export interface Alumnos {
-  id: number; name: string; email: string; age: number;
-}
 
 @Component({
   selector: 'app-alumnos',
@@ -37,7 +36,7 @@ export class AlumnosComponent {
   @ViewChild('alerta') alertaComponent!: AlertaComponent;
 
   constructor(private modalService: NgbModal, private alumnoService: AlumnoService, private grupoService: GrupoService,
-    private alertaService: AlertaService, private mensajeService: MensajeService
+    private alertaService: AlertaService, private mensajeService: MensajeService, private emailService: EmailService
   ) {}
 
   ngOnInit(): void {
@@ -158,17 +157,58 @@ export class AlumnosComponent {
     ref.componentInstance.alumno = alumno;
     ref.result.then((mensajeAux) => {
       console.log('Mensaje resultante alumno ==>',mensajeAux);
+      const mensaje: Mensaje = mensajeAux;
+      let perfil = perfilAdmin;
+      const emailMensajeRequest: EmailMensajeRequest = { to: alumno.correo, subject: 'Has recibido una nueva notificación',
+        letra: perfil.letra, nombre: perfil.nombre, rol: perfil.rol, fechaHora: mensaje.fechaEnvio, asunto: mensaje.asunto,
+        contenido: mensaje.contenido, importante: mensaje.isimportante, leido: mensaje.leido, grupo: mensaje.isgrupo
+      };
+      this.emailService.enviarCorreoMensaje(emailMensajeRequest).subscribe({
+        next: (emailRes) => {
+          console.log("Se ha enviado ==>",emailRes);
+          this.alertaService.mostrar('Se ha enviado correctamente el correo','success');
+        },
+        error: (e) => {
+          console.log("Error ==>",e);
+          this.alertaService.mostrar('No se ha podido enviar el correo correctamente','danger');
+        }
+      });
+    });
+  }
+
+  obtenerNombreGrupo(alumno: Alumno): string {
+    const grupo = this.grupos?.find(g => g.id === alumno.grupo_id);
+    if(!grupo) return 'Grupo no encontrado';
+    return grupo.nombregrupo;
+  }
+
+}
+
+
+/*
+ * PENDIENTE DE TEST
+ * 
+ * 
+   
+      const email: EmailRequest = {to: alumno.correo, subject: mensaje.asunto, body: mensaje.contenido}
+      this.emailService.enviarCorreo(email).subscribe({
+        next: (emailRes) => {
+          console.log('Todo ha ido bien: ',emailRes);
+        },
+        error: (e) => {
+          this.alertaService.mostrar('Ha habido un error enviando el correo','danger');
+        }
+      });
+      /*
       this.mensajeService.aniadirMensaje(mensajeAux).subscribe({
         next: (mensajeRes) => {
           console.log('Mensaje enviado correctamente ==>',mensajeRes);
+
         },
         error: (e) => {
           this.alertaService.mostrar('No se ha podido enviar el mensaje correctamente','danger');
         }
       })
-    });
-
-    
-  }
-
-}
+ * 
+ * 
+*/

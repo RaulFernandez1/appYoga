@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Notificación de Nuevo Mensaje</title>
+    <style>
+        body {
+            background: #f4f4f4;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 800px;
+        }
+        .header {
+            background: #235c22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding: 0 0 0 32px;
+            height: 64px;
+        }
+        .header img {
+            width: 40px;
+            height: 40px;
+            display: block;
+        }
+        .header h1 {
+            color: #fff;
+            font-size: 2em;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        .notificacion-container {
+            background: #fff;
+            max-width: 480px;
+            margin: 40px auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 32px 28px 24px 28px;
+        }
+        .notificacion-titulo {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 18px;
+        }
+        .notificacion-cuerpo {
+            background: #eaf7ea;
+            border-left: 4px solid #238c3e;
+            padding: 18px 16px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            color: #333;
+            font-size: 1em;
+        }
+        .notificacion-footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 18px;
+        }
+        .avatar {
+            border-radius: 50%;
+            background: #238c3e;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            min-height: 40px;
+            max-width: 40px;
+            max-height: 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .badge {
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.85em;
+            display: inline-block;
+            
+        }
+        .badge-rol {
+            background: #6c757d;
+            color: #fff;
+        }
+        .badge-grupo {
+            margin-left: 6px;
+            background: #238c3e;
+            color: #fff;
+        }
+        .badge-personal {
+            background: #0078d7;
+            color: #fff;
+        }
+        .star {
+            color: #ffc107;
+            margin-right: 8px;
+            vertical-align: middle;
+            font-size: 1.1em;
+        }
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #238c3e;
+            border-radius: 50%;
+            margin-left: 4px;
+        }
+        .nombre {
+            font-weight: bold;
+        }
+        .asunto {
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .resumen {
+            color: #6c757d;
+            font-size: 0.95em;
+            margin-top: 2px;
+        }
+        .fecha-hora {
+            text-align: right;
+            color: #6c757d;
+            font-size: 0.85em;
+            min-width: 60px;
+        }
+        @media (max-width: 600px) {
+            .notificacion-container {
+                padding: 18px 6vw 14px 6vw;
+            }
+            .header {
+                padding-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; padding-top: 10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Bitmap_Logo.png" alt="Logo Sadhana de Yoga" style="background:#fff; border-radius:50%;" />
+        <h1>Sadhana de Yoga</h1>
+    </div>
+    <div class="notificacion-container">
+        <div class="notificacion-titulo">Has recibido un nuevo mensaje</div>
+        <div class="notificacion-cuerpo">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+                <div style="display: flex; gap: 12px;">
+                    <div style="min-width:40px; max-width:40px; min-height:40px; max-height:40px; background:#238c3e; border-radius:50%; display:inline-block; text-align:center; vertical-align:middle; line-height:40px; font-size:20px; font-weight:bold; color:#fff; font-family:Arial, sans-serif;">
+                        {{letra}}
+                    </div>
+                    <div style="margin-left: 12px;">
+                        <div class="nombre">
+                            {{nombre}}
+                            <span class="badge badge-rol" style="margin-left: 8px;">{{rol}}</span>
+                            {{#if importante}}
+                                <span class="star" style="top:-5px; position:relative; margin-left:12px;">&#9733;</span>
+                            {{/if}}
+                            {{#if !leido}}
+                                <span class="dot" style="top:-2px; position:relative; margin-left:5px;"></span>
+                            {{/if}}
+                        </div>
+                        <div class="asunto">{{asunto}}</div>
+                        <div class="resumen" style="margin-bottom: 12px;">{{contenido}}</div>
+                        {{#if grupo}}
+                            <span class="badge badge-grupo">Grupo</span>
+                        {{else}}
+                            <span class="badge badge-personal">Personal</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="fecha-hora">
+                    <div>{{fecha}}</div>
+                    <div>{{hora}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="notificacion-footer">
+            Cualquier duda, no dudes en contactar con nosotros.<br>
+            Contacta con nosotros en <a href="mailto:info@sadhanayoga.com" style="color:#0078d7; text-decoration:underline;">info@sadhanayoga.com</a><br>
+            Gracias por usar nuestro servicio.
+        </div>
+        
+    </div>
+    <div style="text-align:center; color:#aaa; font-size:0.85em; margin-top:24px;">
+        © Sadhana de Yoga 2025 Todos los derechos reservados<br>
+        Powered by <a href="https://sadhanayoga.com" style="color:#0078d7; text-decoration:underline;">Sadhana de Yoga</a>
+    </div>
+</body>
+</html> 
