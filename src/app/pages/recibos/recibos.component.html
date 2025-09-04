@@ -5,7 +5,7 @@
     </div>
 
     <div class="table-responsive d-flex gap-4 justify-content-center mb-3">
-        <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
+        <div class="d-flex align-items-center flex-fill tooltips">
             <div class="flex-shrink-0">
                 <i class="bi bi-receipt fs-3"></i>
             </div>
@@ -14,7 +14,7 @@
                 <span class="fw-bold">{{ totalRecibos }} €</span>
             </div>
         </div>
-        <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
+        <div class="d-flex align-items-center flex-fill tooltips">
             <div class="flex-shrink-0">
                 <i class="bi bi-check2-circle fs-3"></i>
             </div>
@@ -23,7 +23,7 @@
                 <span class="fw-bold">{{ recibosPagados }} €</span>
             </div>
         </div>
-        <div class="border border-secundary rounded shadow-sm p-4 d-flex align-items-center flex-fill">
+        <div class="d-flex align-items-center flex-fill tooltips">
             <div class="flex-shrink-0">
                 <i class="bi bi-clock fs-3"></i>
             </div>
@@ -40,6 +40,7 @@
             <thead class="table-header">
                 <tr>
                     <td>Número Recibo</td>
+                    <td>Alumno</td>
                     <td>Fecha Recibo</td>
                     <td>Importe</td>
                     <td>Estado</td>
@@ -49,9 +50,17 @@
             <tbody class="table-body">
                 @for (recibo of recibos; track $index) {
                     <tr>
-                        <td class="text-muted">{{recibo.numerorecibo}}</td>
+                        <td class="fw-semibold">{{recibo.numerorecibo}}</td>
+                        <td>
+                            @if (alumnosInfo[recibo.alumno]) {
+                                <span class="fw-semibold">{{alumnosInfo[recibo.alumno].nombre + ' ' + alumnosInfo[recibo.alumno].apellido1}}</span><br>
+                                <span class="text-muted small">{{alumnosInfo[recibo.alumno].correo}}</span>
+                            } @else {
+
+                            }
+                        </td>
                         <td class="text-muted">{{recibo.fecharecibo | date:'dd/MM/yyyy' }}</td>
-                        <td class="text-muted">{{recibo.cantidad}} €</td>
+                        <td class="fw-semibold">{{recibo.cantidad}} €</td>
                         <td>
                             @if (recibo.pagado) {
                                 <span class="badge bg-success-subtle text-success badge-pill">Pagado</span>
@@ -59,11 +68,33 @@
                                 <span class="badge bg-warning-subtle text-warning badge-pill">Pendiente</span>
                             }
                         </td>
-                        <td>
-                            <div class="">
-                                <button type="button" class="button btn-eliminar me-2" (click)="eliminarRecibo(recibo)"><i class="bi bi-trash3"></i></button>
-                                @if (!recibo.pagado) {<button type="button" class="button btn-pagar me-2" (click)="pagarRecibo(recibo)"><i class="bi bi-check2-circle"></i></button>}
-                                <button type="button" class="button btn-imprimir" (click)="imprimirRecibo(recibo)"><i class="bi bi-printer"></i></button>
+                        <td style="position: relative;">
+                            <div class="dropdown">
+                                <button class="btn-despliegue fw-bold" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-ligth ms-1">
+                                    <li>
+                                        <button type="button" class="dropdown-item button btn-eliminar me-2" (click)="eliminarRecibo(recibo)">
+                                            <i class="bi bi-trash3"></i>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        @if (!recibo.pagado) {
+                                            <button type="button" class="dropdown-item button btn-pagar me-2" (click)="pagarRecibo(recibo)">
+                                                <i class="bi bi-check2-circle"></i>
+                                                Pagar
+                                            </button>
+                                        }
+                                    </li> 
+                                    <li>
+                                        <button type="button" class="dropdown-item button btn-imprimir" (click)="imprimirRecibo(recibo)">
+                                            <i class="bi bi-printer"></i>
+                                            Imprimir
+                                        </button>
+                                    </li>
+                                </ul>
                             </div>
                         </td>
                     </tr>

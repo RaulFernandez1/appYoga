@@ -1,3 +1,4 @@
+/*
 .carousel-item img {
   height: 40rem;
   object-fit: cover;
@@ -24,4 +25,122 @@
   font-weight: 400;
   line-height: 29.25px;
   opacity: 0.95;
+}*/
+
+.carousel-item {
+  position: relative;
+  height: 800px;
+  overflow: hidden;
+}
+
+.carousel-item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.carousel-item .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent); /* ajusta opacidad aquí */
+  z-index: 1;
+}
+
+.carousel-caption {
+  position: absolute;
+  z-index: 2; /* más arriba que el overlay */
+  top: 15%;
+  bottom: 15%;
+  left: 5%;
+  color: white;
+  max-width: 45%;
+  background: transparent; /* o usa rgba si quieres fondo propio */
+}
+
+.carousel-caption .title {
+  font-size: 70px;
+  font-weight: bolder;
+  text-align: left;
+}
+
+.carousel-caption .content {
+  font-size: 30px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.carousel-indicators button {
+  padding: 12px 0px;
+  border-radius: 50%;
+}
+
+.carousel-indicators button:hover {
+  padding: 13px 1px;
+  background-color: rgb(170, 168, 168);
+}
+
+.carousel-control-prev, .carousel-control-next {
+  z-index: 3;
+  
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100% 100%;
+  width: 24px;
+  height: 24px;
+}
+
+.titulo {
+  font-weight: bolder;
+  font-size: 80px;
+  color:  rgb(51, 150, 83);
+}
+
+.contenido {
+  font-size: 30px;
+  align-items: center;
+}
+
+.tooltips {
+  padding: 20px;
+  width: 400px;
+  border: 1px solid;
+  border-color: rgba(170, 168, 168,0.6);
+  border-radius: 10px;
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, 0.075);
+  text-decoration: none;
+  color: black;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tooltips:hover {
+  transform: scale(1.005) translateY(-5px);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+  color: green;
+}
+
+.tooltips .title {
+  font-size: larger;
+  font-weight: 600;
+}
+
+.tooltips .icon {
+  padding: 10px 12px;
+  margin-right: 10px;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.icono-hover {
+  display: none;
+}
+
+.tooltips:hover .icono-hover {
+  display: inline;
 }

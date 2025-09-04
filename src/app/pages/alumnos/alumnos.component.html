@@ -9,7 +9,7 @@
             <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
             <input type="text" class="form-control" [(ngModel)]="dniFilter" placeholder="Buscar alumnos por dni..." aria-describedby="basic-addon1" (keyup.enter)="buscar()">
         </div>
-        <div class="input-group">
+        <div class="input-group w-50">
             <select [(ngModel)]="selectedGroup" class="form-select mt-3 mb-3" (change)="buscar()">
                 <option value="">Todos los grupos</option>
                 @for (grupo of grupos; track $index) {
@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <span class="fw-bold">{{alumno.nombre + ' ' + alumno.apellido1 + ' ' + alumno.apellido2}}</span><br>
+                                    <span class="fw-semibold">{{alumno.nombre + ' ' + alumno.apellido1 + ' ' + alumno.apellido2}}</span><br>
                                     <span class="text-muted small">{{alumno.dni}}</span>
                                 </div>
                             </div>

@@ -91,15 +91,19 @@ export class NivelesComponent {
   }
 
   eliminarNivel(nivel: Nivel) {
-    this.nivelService.eliminarNivel(nivel.id).subscribe({
-      next: (nivelResult) => {
-        console.log('Nivel eliminado',nivelResult);
-        this.actualizarNiveles();
-      },
-      error: (e) => {
-        this.alertaService.mostrar('No se ha podido eliminar el nivel con exito','danger');
-      }
-    });
+    if(this.getGrupoPorNivel(nivel) == 0) {
+      this.nivelService.eliminarNivel(nivel.id).subscribe({
+        next: (nivelResult) => {
+          console.log('Nivel eliminado',nivelResult);
+          this.actualizarNiveles();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido eliminar el nivel con exito','danger');
+        }
+      });
+    } else {
+      this.alertaService.mostrar('Hay grupos en este nivel. Eliminalos primero para poder eliminar el nivel.','warning');
+    }
   }
 
   getGrupoPorNivel(nivel: Nivel) {

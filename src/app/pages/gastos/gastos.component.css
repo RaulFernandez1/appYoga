@@ -62,6 +62,18 @@
   background-color: rgb(196, 195, 195);
 }
 
+.mesesAnima {
+  
+}
+
+@keyframes expand {
+  from {
+    height: 240px;
+  } to {
+    height: 300px;
+  }
+}
+
 .cargando {
   animation: girar 1s linear infinite;
 }

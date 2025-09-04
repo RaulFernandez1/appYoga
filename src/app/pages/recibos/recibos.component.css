@@ -1,0 +1,14 @@
+.tooltips {
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid;
+    border-color: rgba(170, 168, 168,0.6);
+    border-radius: 10px;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tooltips:hover {
+  transform: scale(1.005) translateY(-5px);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}

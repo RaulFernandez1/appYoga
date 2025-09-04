@@ -10,6 +10,8 @@ import { AlertaService } from '../../service/alerta.service';
 import { FormMensajeComponent } from '../alumnos/form-mensaje/form-mensaje.component';
 import { Alumno } from '../../entities/alumno';
 import { AlumnoService } from '../../service/alumno.service';
+import { Nivel } from '../../entities/nivel';
+import { NivelService } from '../../service/nivel.service';
 
 @Component({
   selector: 'app-grupos',
@@ -25,11 +27,14 @@ export class GruposComponent {
 
   alumnos?: Alumno[];
 
+  selectedNivel: string = '';
+  niveles?: Nivel[];
+
   nombreGrupo: string = '';
   limiteGrupo: number = 15;
 
   constructor(private modalService: NgbModal, private grupoService: GrupoService, private alumnoService: AlumnoService,
-    private alertaService: AlertaService) {}
+    private nivelService: NivelService, private alertaService: AlertaService) {}
 
   ngOnInit(): void {
     this.actualizarGrupos();
@@ -40,7 +45,15 @@ export class GruposComponent {
       error: (e) => {
         this.alertaService.mostrar('No se ha podido encontrar el listado de alumnos','warning');
       }
-    })
+    });
+    this.nivelService.obtenerTodosNivels().subscribe({
+      next: (nivelRes) => {
+        this.niveles = nivelRes;
+      },
+      error: (e) => {
+        this.alertaService.mostrar('No se ha podido encontrar el listado de niveles','warning');
+      }
+    });
   }
 
   actualizarGrupos() {
@@ -53,7 +66,9 @@ export class GruposComponent {
 
   buscar() {
     this.gruposRes = this.grupos?.filter(grupo => {
-        return this.nombreGrupo === '' || grupo.nombregrupo.includes(this.nombreGrupo);
+        const filtroGrupo = this.nombreGrupo === '' || grupo.nombregrupo.includes(this.nombreGrupo);
+        const filtroNivel = this.selectedNivel === '' || grupo.nivel.includes(this.selectedNivel);
+        return filtroGrupo && filtroNivel;
     });
   }
 
@@ -94,15 +109,19 @@ export class GruposComponent {
   }
 
   eliminarGrupo(grupo: Grupo) {
-    this.grupoService.eliminarGrupo(grupo.id).subscribe({
-      next: (grupoRes) => {
-        console.log('Grupo eliminado',grupoRes);
-        this.actualizarGrupos();
-      },
-      error: (e) => {
-        this.alertaService.mostrar('No se ha podido eliminar el grupo con exito', 'danger');
-      }
-    });
+    if(this.getAlumnosInGrupo(grupo) == 0) {
+      this.grupoService.eliminarGrupo(grupo.id).subscribe({
+        next: (grupoRes) => {
+          console.log('Grupo eliminado',grupoRes);
+          this.actualizarGrupos();
+        },
+        error: (e) => {
+          this.alertaService.mostrar('No se ha podido eliminar el grupo con exito', 'danger');
+        }
+      });
+    } else {
+      this.alertaService.mostrar('Hay alumnos en este grupo. Eliminalos primero para poder eliminar el grupo.','warning');
+    }
   }
 
   enviarMensaje(grupo: Grupo) {

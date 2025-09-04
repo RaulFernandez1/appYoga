@@ -24,6 +24,8 @@ import { EmailReciboRequest } from '../../entities/email';
 })
 export class RecibosComponent {
 
+  alumnosInfo: {[clave: number]: Alumno} = [];
+
   recibos?: Recibo[];
   totalRecibos: number = 0;
   recibosPagados: number = 0;
@@ -48,6 +50,16 @@ export class RecibosComponent {
       this.totalRecibos = this.recibos.reduce((total, recibo) => total + recibo.cantidad, 0);
       this.recibosPagados = this.recibos.reduce((total, recibo) => total + ((recibo.pagado)? recibo.cantidad : 0), 0);
       this.recibosPendientes = this.totalRecibos - this.recibosPagados;
+    });
+    this.alumnoService.obtenerTodosAlumnos().subscribe({
+      next: (alumnosRes) => {
+        alumnosRes.forEach(a => {
+          this.alumnosInfo[a.id] = a;
+        })
+      },
+      error: (e) => {
+        console.log("[Recibos] No se han podido obtener alumnos");
+      }
     });
   }
 
